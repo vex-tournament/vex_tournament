@@ -4,6 +4,12 @@ from .models import School, Team
 from django.contrib.auth import authenticate, login, logout
 from django import forms
 
+class timerform(forms.Form):
+    timerinput = forms.CharField(label="timerinput", max_length=3)
+    def clean(self):
+        cleaned_data = super(manage_tournament, self).clean()
+        timerinput = cleaned_data.get("timerinput")
+        return cleaned_data
 
 class LoginForm(forms.Form):
     username = forms.CharField(label="Username", max_length=100)

@@ -1,0 +1,24 @@
+{% extends "tournament_site/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <h1>Please log in</h1>
+    <p>If you do not have an account, or forgot your credentials, please contact the tournament organizers.</p>
+
+    {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" value="{{ username }}">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password">
+        <br>
+        <input type="submit" value="Log in">
+    </form>
+
+{% endblock %}

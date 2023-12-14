@@ -3,6 +3,20 @@
 
 {% block body %}
 
-<h1> VEX tournament</h1>
-    
+    <h1> VEX tournament</h1>
+
+    <!-- scoreboard -->
+    <table>
+        <tr>
+            <th>Team</th>
+            <th>Score</th>
+        </tr>
+        {% for team in teams %}
+            <tr>
+                <td>{{ team.number }}</td>
+                <td>{{ team.school }}</td>
+                <td>{{ team.score }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

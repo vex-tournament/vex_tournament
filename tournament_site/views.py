@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from .models import School, Team
 
 
 # Create your views here.
@@ -20,7 +21,16 @@ def tournament(request):
             # staff user
             return redirect("/manage_tournament/")
 
-        return render(request, "tournament_site/tournament.html")
+        data = {
+            "user": user,
+            "schools": School.objects.all(),
+            "teams": Team.objects.all()
+        }
+
+        # sort teams by ranking points
+        data["teams"] = sorted(data["teams"], key=lambda team: team.ranking_points, reverse=True)
+
+        return render(request, "tournament_site/tournament.html", data)
 
     return redirect("/login/")
 

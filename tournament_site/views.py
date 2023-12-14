@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
-        return redirect("tournament/")
+        return redirect("/tournament/")
 
     return render(request, "tournament_site/index.html")
 
@@ -18,13 +18,14 @@ def tournament(request):
 
         if user.is_staff:
             # staff user
-            return redirect("manage_tournament/")
+            return redirect("/manage_tournament/")
 
         return render(request, "tournament_site/tournament.html")
 
-    return redirect("login/")
+    return redirect("/login/")
 
 
+# manage tournament page, requires login and staff status
 def manage_tournament(request):
     if request.user.is_authenticated:
         # get user data
@@ -34,6 +35,6 @@ def manage_tournament(request):
             # staff user
             return render(request, "tournament_site/manage_tournament.html")
 
-        return redirect("tournament/")
+        return redirect("/tournament/")
 
-    return redirect("login/")
+    return redirect("/login/")

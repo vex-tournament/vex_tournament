@@ -20,11 +20,5 @@
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
-    <option name="TEMPLATE_FOLDERS">
-      <list>
-        <option value="$MODULE_DIR$/templates" />
-        <option value="$MODULE_DIR$/templates/tournament_site" />
-      </list>
-    </option>
   </component>
 </module>

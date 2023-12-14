@@ -88,7 +88,10 @@ def log_in(request):
         form = LoginForm()
 
     return render(request, "tournament_site/login.html", {"form": form})
+def timerform(request):
+    form = timerform()
 
+    return render(request, "tournament_site/manage_tournament.html", {"form": form})
 
 def log_out(request):
     logout(request)

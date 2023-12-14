@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from .models import School, Team
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django import forms
 
 
@@ -25,7 +25,7 @@ def index(request):
     if request.user.is_authenticated:
         return redirect("/tournament/")
 
-    return render(request, "tournament_site/index.html")
+    return redirect("/login/")
 
 
 # main tournament page, requires login
@@ -82,3 +82,8 @@ def log_in(request):
         form = LoginForm()
 
     return render(request, "tournament_site/login.html", {"form": form})
+
+
+def log_out(request):
+    logout(request)
+    return redirect("/login/")

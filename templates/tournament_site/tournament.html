@@ -6,7 +6,7 @@
     <h1> VEX tournament</h1>
 
     <!-- scoreboard -->
-    <table>
+    <table class="table">
         <tr>
             <th>Team</th>
             <th>Score</th>
@@ -19,4 +19,6 @@
             </tr>
         {% endfor %}
     </table>
+
+    <a class="btn btn-primary" href="{% url 'logout' %}">logout</a>
 {% endblock %}

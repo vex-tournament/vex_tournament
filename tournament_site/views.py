@@ -1,9 +1,17 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from .models import School, Team
+from .models import School, Team, GetTimer
 from django.contrib.auth import authenticate, login, logout
 from django import forms
+import os
+import json
 
+class timerform(forms.Form):
+    timerinput = forms.CharField(label="timerinput", max_length=3)
+    def clean(self):
+        cleaned_data = super(manage_tournament, self).clean()
+        timerinput = cleaned_data.get("timerinput")
+        return cleaned_data
 
 class LoginForm(forms.Form):
     username = forms.CharField(label="Username", max_length=100)
@@ -82,6 +90,18 @@ def log_in(request):
         form = LoginForm()
 
     return render(request, "tournament_site/login.html", {"form": form})
+
+
+def timerform(request):
+    if request.method == "POST":
+        form = timerform(request.POST)
+        if form.is_valid():
+            timerinput = form.cleaned_data["timerinput"]
+            gettimer.objects.create(time=timerinput)
+    else:
+        form = timerform()
+
+    return render(request, "tournament_site/manage_tournament.html", {"form": form})
 
 
 def log_out(request):

@@ -6,4 +6,11 @@
     <h1> VEX tournament admin</h1>
 
     <a class="btn btn-primary" href="{% url 'logout' %}">logout</a>
+    
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        <input type="text" name="set time!" id="timerinput">
+        <br>
+        <input type="submit" value="start!">
 {% endblock %}

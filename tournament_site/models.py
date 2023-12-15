@@ -12,3 +12,6 @@ class Team(models.Model):
     team_number = models.IntegerField(unique=True)
     ranking_points = models.IntegerField(default=0)
     matches_played = models.IntegerField(default=0)
+
+class gettimer(models.Model):
+    timer = models.IntegerField(default=0)

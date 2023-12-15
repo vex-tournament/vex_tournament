@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from .models import School, Team
+from .models import School, Team, gettimer
 from django.contrib.auth import authenticate, login, logout
 from django import forms
+import os
+import json
 
 class timerform(forms.Form):
     timerinput = forms.CharField(label="timerinput", max_length=3)
@@ -89,7 +91,13 @@ def log_in(request):
 
     return render(request, "tournament_site/login.html", {"form": form})
 def timerform(request):
-    form = timerform()
+    if request.method == "POST":
+        form = timerform(request.POST)
+        if form.is_valid():
+            timerinput = form.cleaned_data["timerinput"]
+            gettimer.objects.create(time=timerinput)
+    else:
+        form = timerform()
 
     return render(request, "tournament_site/manage_tournament.html", {"form": form})
 

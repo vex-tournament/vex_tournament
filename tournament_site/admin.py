@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import School, Team
+from .models import School, Team, GetTimer
 
 
 @admin.register(School)
@@ -11,7 +11,7 @@ class SchoolAdmin(admin.ModelAdmin):
 class TeamAdmin(admin.ModelAdmin):
     pass
 
-# from django.contrib import admin
-# from .models import Timer
 
-# admin.site.register(Timer)
+@admin.register(GetTimer)
+class GetTimeAdmin(admin.ModelAdmin):
+    pass

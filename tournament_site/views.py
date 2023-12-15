@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from .models import School, Team, gettimer
+from .models import School, Team, GetTimer
 from django.contrib.auth import authenticate, login, logout
 from django import forms
 import os
@@ -90,6 +90,8 @@ def log_in(request):
         form = LoginForm()
 
     return render(request, "tournament_site/login.html", {"form": form})
+
+
 def timerform(request):
     if request.method == "POST":
         form = timerform(request.POST)
@@ -100,6 +102,7 @@ def timerform(request):
         form = timerform()
 
     return render(request, "tournament_site/manage_tournament.html", {"form": form})
+
 
 def log_out(request):
     logout(request)

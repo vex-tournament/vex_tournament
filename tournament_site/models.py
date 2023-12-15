@@ -13,5 +13,6 @@ class Team(models.Model):
     ranking_points = models.IntegerField(default=0)
     matches_played = models.IntegerField(default=0)
 
-class gettimer(models.Model):
+
+class GetTimer(models.Model):
     timer = models.IntegerField(default=0)

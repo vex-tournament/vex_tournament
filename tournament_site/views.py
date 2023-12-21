@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from .models import School, Team
+from .models import Field, School, Team, Matches
 from django.contrib.auth import authenticate, login, logout
 from django import forms
 
@@ -60,7 +60,15 @@ def manage_tournament(request):
 
         if user.is_staff:
             # staff user
-            return render(request, "tournament_site/manage_tournament.html")
+            # fields
+            fields = Field.objects.all()
+            matches = Matches.objects.all().order_by("time")
+
+            return render(
+                request,
+                "tournament_site/manage_tournament.html",
+                {"fields": fields, "matches": matches}
+            )
 
         return redirect("/tournament/")
 

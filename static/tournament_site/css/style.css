@@ -1,3 +1,8 @@
 h1 {
     text-align: center;
 }
+
+
+.match_completed {
+    background-color: green;
+}

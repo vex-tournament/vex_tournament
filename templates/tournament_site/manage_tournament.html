@@ -3,7 +3,39 @@
 
 {% block body %}
 
-    <h1> VEX tournament admin</h1>
+    <h1> VEX tournament Qualifiers</h1>
+
+    <!-- matches -->
+    {% for field in fields %}
+        <h2>{{ field.name }}</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Match Number</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Side {{ field.side1 }} Number</th>
+                    <th scope="col">Side {{ field.side1 }} Ranking Points</th>
+                    <th scope="col">Side {{ field.side2 }} Number</th>
+                    <th scope="col">Side {{ field.side2 }} Ranking Points</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for match in matches %}
+                    {% if match in field.matches.all %}
+                        <tr class="match{% if match.completed %}_completed{% endif %}">
+                            <td>{{ match.number }}</td>
+                            <td>{{ match.time }}</td>
+                            <td>{{ match.side1Team.number }}</td>
+                            <td>{{ match.side1RankingPoints }}</td>
+                            <td>{{ match.side2Team.number }}</td>
+                            <td>{{ match.side2RankingPoints }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
 
     <a class="btn btn-primary" href="{% url 'logout' %}">logout</a>
 {% endblock %}

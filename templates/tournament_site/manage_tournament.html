@@ -5,59 +5,72 @@
 
     <h1> VEX tournament Qualifiers</h1>
 
-    <!-- scoreboard -->
-    <h2>Scoreboard</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Rank</th>
-                <th scope="col">Team Number</th>
-                <th scope="col">Ranking Points</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for team in teams %}
-                <tr>
-                    <th scope="row">{{ forloop.counter0 }}</th>
-                    <td>{{ team.number }}</td>
-                    <td>{{ team.ranking_points }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <!-- matches -->
-    {% for field in fields %}
-        <h2>{{ field.field_name }}</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Match Number</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Side {{ field.side1 }} Number</th>
-                    <th scope="col">Side {{ field.side1 }} Ranking Points</th>
-                    <th scope="col">Side {{ field.side2 }} Number</th>
-                    <th scope="col">Side {{ field.side2 }} Ranking Points</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for match in matches %}
-                    {% if match in field.matches.all %}
-                        <tr class="match{% if match.completed %}_completed{% endif %}">
-                            <td>{{ match.number }}</td>
-                            <td>{{ match.time }}</td>
-                            <td>{{ match.side1Team.number }}</td>
-                            <td>{{ match.side1RankingPoints }}</td>
-                            <td>{{ match.side2Team.number }}</td>
-                            <td>{{ match.side2RankingPoints }}</td>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <!-- scoreboard -->
+                <h2>Scoreboard</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Rank</th>
+                            <th scope="col">Team Number</th>
+                            <th scope="col">Ranking Points</th>
                         </tr>
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endfor %}
+                    </thead>
+
+                    <tbody>
+                        {% for team in teams %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter0 }}</th>
+                                <td>{{ team.number }}</td>
+                                <td>{{ team.ranking_points }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!-- matches -->
+            {% for field in fields %}
+                <div class="col-sm">
+                    <h2>{{ field.field_name }}</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Match</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">{{ field.side1 }}</th>
+                                <th scope="col">RP {{ field.side1 }}</th>
+                                <th scope="col">{{ field.side2 }}</th>
+                                <th scope="col">RP {{ field.side2 }}</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for match in matches %}
+                                {% if match in field.matches.all %}
+                                    <tr class="match{% if match.completed %}_completed{% endif %}">
+                                        <td>{{ match.number }}</td>
+                                        <td>{{ match.time|time:"G:i" }}</td>
+                                        <td>{{ match.side1Team.number }}</td>
+                                        <td>{{ match.side1RankingPoints }}</td>
+                                        <td>{{ match.side2Team.number }}</td>
+                                        <td>{{ match.side2RankingPoints }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+
 
     <a class="btn btn-primary" href="{% url 'logout' %}">logout</a>
 {% endblock %}

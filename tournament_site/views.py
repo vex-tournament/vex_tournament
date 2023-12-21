@@ -63,11 +63,12 @@ def manage_tournament(request):
             # fields
             fields = Field.objects.all()
             matches = Matches.objects.all().order_by("time")
+            teams = Team.objects.all().order_by("ranking_points")
 
             return render(
                 request,
                 "tournament_site/manage_tournament.html",
-                {"fields": fields, "matches": matches}
+                {"fields": fields, "matches": matches, "teams": teams}
             )
 
         return redirect("/tournament/")

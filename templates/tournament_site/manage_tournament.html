@@ -5,6 +5,28 @@
 
     <h1> VEX tournament Qualifiers</h1>
 
+    <!-- scoreboard -->
+    <h2>Scoreboard</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Team Number</th>
+                <th scope="col">Ranking Points</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for team in teams %}
+                <tr>
+                    <th scope="row">{{ forloop.counter0 }}</th>
+                    <td>{{ team.number }}</td>
+                    <td>{{ team.ranking_points }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     <!-- matches -->
     {% for field in fields %}
         <h2>{{ field.field_name }}</h2>

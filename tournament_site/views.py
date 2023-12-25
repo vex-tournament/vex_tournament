@@ -20,6 +20,28 @@ class LoginForm(forms.Form):
         return cleaned_data
 
 
+class MatchForm(forms.Form):
+    match_number = forms.IntegerField(label="Match Number")
+    side1Points = forms.IntegerField(label="Side 1 Points")
+    side2Points = forms.IntegerField(label="Side 2 Points")
+    completed = forms.BooleanField(label="Completed")
+
+    def clean(self):
+        cleaned_data = super(MatchForm, self).clean()
+        match_number = cleaned_data.get("match_number")
+        side1_points = cleaned_data.get("side1_points")
+        side2_points = cleaned_data.get("side2_points")
+        completed = cleaned_data.get("completed")
+
+        if not Matches.objects.filter(number=match_number).exists():
+            raise forms.ValidationError("Invalid match number")
+
+        if side1_points < 0 or side2_points < 0:
+            raise forms.ValidationError("Points cannot be negative")
+
+        return cleaned_data
+
+
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:

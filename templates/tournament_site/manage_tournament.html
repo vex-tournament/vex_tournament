@@ -5,7 +5,7 @@
 
     <h1> VEX tournament Qualifiers</h1>
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-sm">
                 <!-- scoreboard -->
@@ -45,19 +45,29 @@
                                 <th scope="col">RP {{ field.side1 }}</th>
                                 <th scope="col">{{ field.side2 }}</th>
                                 <th scope="col">RP {{ field.side2 }}</th>
+                                <th scope="col">Complete</th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
 
                         <tbody>
                             {% for match in matches %}
                                 {% if match in field.matches.all %}
+                                    <!-- trs cannot be in forms, so we have to do this -->
+                                    <form method="POST" id="match_{{ match.number }}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="match_number" value="{{ match.number }}">
+                                    </form>
+
                                     <tr class="match {% if match.completed %}table-success{% endif %}">
                                         <td>{{ match.number }}</td>
                                         <td>{{ match.time|time:"G:i" }}</td>
                                         <td>{{ match.side1Team.number }}</td>
-                                        <td>{{ match.side1RankingPoints }}</td>
+                                        <td><input class="form-control RPInput" type="number" form="match_{{ match.number }}" id="side1RP_{{ match.number }}" min="0" max="9" value="{{ match.side1RankingPoints }}"></td>
                                         <td>{{ match.side2Team.number }}</td>
-                                        <td>{{ match.side2RankingPoints }}</td>
+                                        <td><input class="form-control RPInput" type="number" form="match_{{ match.number }}" id="side2RP_{{ match.number }}" min="0" max="9" value="{{ match.side2RankingPoints }}"></td>
+                                        <td><input class="form-check" type="checkbox" form="match_{{ match.number }}" id="completed" value="checked" {% if match.completed %}checked{% endif %}></td>
+                                        <td><input class="btn btn-primary btn-sm" type="submit" value="Confirm" form="match_{{ match.number }}"></td>
                                     </tr>
                                 {% endif %}
                             {% endfor %}

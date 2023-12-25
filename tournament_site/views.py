@@ -82,6 +82,20 @@ def manage_tournament(request):
 
         if user.is_staff:
             # staff user
+            if (request.method == "POST"):
+                # handle form
+                form = MatchForm(request.POST)
+
+                if form.is_valid():
+                    # get match
+                    match = Matches.objects.get(number=form.cleaned_data["match_number"])
+
+                    # update match
+                    match.side1RankingPoints = form.cleaned_data["side1Points"]
+                    match.side2RankingPoints = form.cleaned_data["side2Points"]
+                    match.completed = form.cleaned_data["completed"]
+                    match.save()
+
             # fields
             fields = Field.objects.all()
             matches = Matches.objects.all().order_by("time")

@@ -58,8 +58,8 @@
                                     <form method="POST" id="match_{{ match.number }}">
                                         {% csrf_token %}
                                         <input type="hidden" name="match_number" value="{{ match.number }}">
-                                        <input type="hidden" name="side1RP" value="{{ match.side1RankingPoints }}" id="side1RPHidden_{{ match.number }}">
-                                        <input type="hidden" name="side2RP" value="{{ match.side2RankingPoints }}" id="side2RPHidden_{{ match.number }}">
+                                        <input type="hidden" name="side1Points" value="{{ match.side1RankingPoints }}" id="side1RPHidden_{{ match.number }}">
+                                        <input type="hidden" name="side2Points" value="{{ match.side2RankingPoints }}" id="side2RPHidden_{{ match.number }}">
                                         <input type="hidden" name="completed" value="{{ match.completed }}" id="completedHidden_{{ match.number }}">
                                     </form>
 
@@ -70,7 +70,7 @@
                                         <td><input class="form-control" type="number" id="side1RP_{{ match.number }}" min="0" max="9" value="{{ match.side1RankingPoints }}" onchange="updateRP(this)"></td>
                                         <td>{{ match.side2Team.number }}</td>
                                         <td><input class="form-control" type="number" id="side2RP_{{ match.number }}" min="0" max="9" value="{{ match.side2RankingPoints }}" onchange="updateRP(this)"></td>
-                                        <td><input class="form-check" type="checkbox" id="completed_{{ match.number }}" value="checked" onchange="updateCompleted(this)" {% if match.completed %}checked{% endif %}></td>
+                                        <td><input class="form-check" type="checkbox" id="completed_{{ match.number }}" onchange="updateCompleted(this)" {% if match.completed %}checked{% endif %}></td>
                                         <td><input class="btn btn-primary btn-sm" type="submit" value="Confirm" form="match_{{ match.number }}"></td>
                                     </tr>
                                 {% endif %}

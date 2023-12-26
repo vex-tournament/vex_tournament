@@ -1,0 +1,11 @@
+{% extends "tournament_site/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <script src="{% static 'tournament_site/js/manage_tournament.js' %}"></script>
+
+    <h1> VEX tournament Knockout</h1>
+
+
+    <a class="btn btn-primary" href="{% url 'logout' %}">logout</a>
+{% endblock %}

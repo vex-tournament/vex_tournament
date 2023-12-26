@@ -155,3 +155,8 @@ def log_in(request):
 def log_out(request):
     logout(request)
     return redirect("/login/")
+
+
+def alliance_selection(request, alliance_number):
+    print(alliance_number)
+    return render(request, "tournament_site/alliance_selection.html")

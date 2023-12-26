@@ -2,6 +2,10 @@ from django.db import models
 
 
 # Create your models here.
+class Game(models.Model):
+    alliance_number = models.IntegerField(default=0)
+
+
 class Field(models.Model):
     field_number = models.IntegerField(unique=True)
     field_name = models.CharField(max_length=100)

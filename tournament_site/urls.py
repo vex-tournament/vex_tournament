@@ -7,4 +7,5 @@ urlpatterns = [
     path("manage_tournament/", views.manage_tournament, name="manage_tournament"),
     path("login/", views.log_in, name="login"),
     path("logout/", views.log_out, name="logout"),
+    path("alliance_selection/<int:alliance_number>/", views.alliance_selection, name="alliance_selection"),
 ]

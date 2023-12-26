@@ -90,6 +90,29 @@ def manage_tournament(request):
                     # get match
                     match = Matches.objects.get(number=form.cleaned_data["match_number"])
 
+                    # update team ranking points
+                    side1RPDiff = form.cleaned_data["side1Points"] - match.side1RankingPoints
+                    side2RPDiff = form.cleaned_data["side2Points"] - match.side2RankingPoints
+
+                    # get team
+                    team1 = Team.objects.get(number=match.side1Team.number)
+                    team2 = Team.objects.get(number=match.side2Team.number)
+
+                    # update ranking points
+                    team1.ranking_points += side1RPDiff
+                    team2.ranking_points += side2RPDiff
+
+                    # update matches played
+                    if form.cleaned_data["completed"] and not match.completed:
+                        team1.matches_played += 1
+                        team2.matches_played += 1
+                    elif not form.cleaned_data["completed"] and match.completed:
+                        team1.matches_played -= 1
+                        team2.matches_played -= 1
+
+                    team1.save()
+                    team2.save()
+
                     # update match
                     match.side1RankingPoints = form.cleaned_data["side1Points"]
                     match.side2RankingPoints = form.cleaned_data["side2Points"]

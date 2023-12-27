@@ -41,7 +41,6 @@ class MatchForm(forms.Form):
 
         return cleaned_data
 
-
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
@@ -159,6 +158,24 @@ def log_out(request):
 
 def alliance_selection(request, alliance_number):
     # get teams, sorted by ranking points
+    user = request.user
+
+    if not user.is_staff:
+        return redirect("/tournament/")
+
+    if request.method == "POST":
+        teams = Team.objects.all()
+
+        for team in teams:
+            alliance = request.POST.get(str(team.number))
+
+            if alliance == "None":
+                team.alliance = None
+                continue
+
+            team.alliance = Team.objects.get(number=int(alliance))
+            team.save()
+
     teams = Team.objects.all()
     teams = sorted(teams, key=lambda team: team.ranking_points, reverse=True)
 

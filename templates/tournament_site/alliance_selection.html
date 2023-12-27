@@ -19,7 +19,7 @@
             </thead>
             <tbody>
                 {% for team in teams %}
-                    <tr class="{% if team.alliance != None %}table-success{% endif %}">
+                    <tr>
                         <th>{{ forloop.counter }}</th>
                         <td>{{ team.number }}</td>
                         <td>{{ team.ranking_points }}</td>

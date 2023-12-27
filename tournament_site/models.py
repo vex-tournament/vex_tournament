@@ -24,7 +24,7 @@ class Team(models.Model):
     number = models.IntegerField(unique=True)
     ranking_points = models.IntegerField(default=0)
     matches_played = models.IntegerField(default=0)
-    alliance = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="alliance", null=True, blank=True)
+    alliance = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
 
 
 class Matches(models.Model):

@@ -158,5 +158,8 @@ def log_out(request):
 
 
 def alliance_selection(request, alliance_number):
-    print(alliance_number)
-    return render(request, "tournament_site/alliance_selection.html")
+    # get teams, sorted by ranking points
+    teams = Team.objects.all()
+    teams = sorted(teams, key=lambda team: team.ranking_points, reverse=True)
+
+    return render(request, "tournament_site/alliance_selection.html", {"teams": teams, "alliance_number": alliance_number})

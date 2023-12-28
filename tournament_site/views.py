@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from .models import Field, School, Team, Matches
+from .models import Field, School, Team, Matches, PlayoffMatches, Bracket
 from django.contrib.auth import authenticate, login, logout
 from django import forms
 
@@ -121,7 +121,7 @@ def manage_tournament(request):
             # fields
             fields = Field.objects.all()
             matches = Matches.objects.all().order_by("time")
-            teams = Team.objects.all().order_by("ranking_points")
+            teams = reversed(Team.objects.all().order_by("ranking_points"))
 
             return render(
                 request,
@@ -176,7 +176,42 @@ def alliance_selection(request, alliance_number):
             team.alliance = Team.objects.get(number=int(alliance))
             team.save()
 
+        # put teams into brackets
+        teams = Team.objects.filter(alliance__isnull=False)
+
+        bracket = Bracket.objects.create()
+
+        seenTeams = set()  # avoid duplicate teams
+
+        for team in teams:
+            if team.number in seenTeams:
+                continue
+
+            seenTeams.add(team.number)
+            seenTeams.add(team.alliance.number)
+
+            playoff_match = PlayoffMatches.objects.create(
+                side1Team=team,
+                side2Team=team.alliance
+            )
+
+            bracket.Quarterfinals.add(playoff_match)
+
+        return redirect("/playoffs/")
+
     teams = Team.objects.all()
     teams = sorted(teams, key=lambda team: team.ranking_points, reverse=True)
 
     return render(request, "tournament_site/alliance_selection.html", {"teams": teams, "alliance_number": alliance_number})
+
+
+def playoffs(request):
+    user = request.user
+
+    if not user.is_staff:
+        return redirect("/tournament/")
+
+    teams = Team.objects.filter(alliance__isnull=False)
+    teams = sorted(teams, key=lambda team: team.ranking_points, reverse=True)
+
+    return render(request, "tournament_site/playoffs.html", {"teams": teams})

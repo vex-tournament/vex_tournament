@@ -35,3 +35,15 @@ class Matches(models.Model):
     side1RankingPoints = models.IntegerField(default=0)
     side2RankingPoints = models.IntegerField(default=0)
     completed = models.BooleanField(default=False)
+
+
+class Bracket(models.Model):
+    Quarterfinals = models.ManyToManyField("PlayoffMatches", related_name="Quarterfinals")
+    Semifinals = models.ManyToManyField("PlayoffMatches", related_name="Semifinals", blank=True)
+    Finals = models.ManyToManyField("PlayoffMatches", related_name="Finals", blank=True)
+
+
+class PlayoffMatches(models.Model):
+    side1Team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side1TeamPlayoff")
+    side2Team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side2TeamPlayoff")
+    winner = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="winner", blank=True, null=True)

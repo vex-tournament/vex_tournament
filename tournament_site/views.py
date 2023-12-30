@@ -287,6 +287,7 @@ def playoffs(request):
     quarterFinals = Bracket.objects.all()[0].Quarterfinals.all()
     semiFinals = Bracket.objects.all()[0].Semifinals.all()
     finals = Bracket.objects.all()[0].Finals.all()
+    winner = Bracket.objects.all()[0].Winner
 
     matchType = "Finals"
 
@@ -302,4 +303,4 @@ def playoffs(request):
 
     return render(request, "tournament_site/playoffs.html",
                   {"teams": teams, "quarterFinals": quarterFinals, "semiFinals": semiFinals, "finals": finals,
-                   "matchType": matchType})
+                   "matchType": matchType, "winner": winner})

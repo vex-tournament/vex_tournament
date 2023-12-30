@@ -198,6 +198,7 @@ def alliance_selection(request, alliance_number):
         bracket = Bracket.objects.create()
 
         seenTeams = set()  # avoid duplicate teams
+        side1Team = None
 
         for team in teams:
             if team.number in seenTeams:
@@ -205,12 +206,19 @@ def alliance_selection(request, alliance_number):
 
             seenTeams.add(team.number)
             seenTeams.add(team.alliance.number)
+            print(side1Team)
+
+            if side1Team is None:
+                side1Team = team
+                continue
 
             playoff_match = PlayoffMatches.objects.create(
                 id=PlayoffMatches.objects.all().count(),
-                side1Team=team,
-                side2Team=team.alliance
+                side1Team=side1Team,
+                side2Team=team
             )
+
+            side1Team = None
 
             bracket.Quarterfinals.add(playoff_match)
 

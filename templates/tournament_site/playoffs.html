@@ -1,0 +1,197 @@
+{% extends "tournament_site/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <h1> VEX tournament Playoffs</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {% if matchType == "Quarterfinals" %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="playoff_match">
+                            <input type="hidden" name="type" value="quarterFinals">
+                            <input type="hidden" name="number" value="0">
+                            {{ quarterFinals.0.side1Team.number }}
+                            <input type="radio" name="winner" value="{{ quarterFinals.0.side1Team.number }}" required>
+                            <br>
+                            {{ quarterFinals.0.side2Team.number }}
+                            <input type="radio" name="winner" value="{{ quarterFinals.0.side2Team.number }}" required>
+                            <br>
+                            <input type="submit" value="Submit" class="btn btn-sm btn-primary">
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="playoff_match">
+                        {{ quarterFinals.0.side1Team.number }}
+                        <br>
+                        {{ quarterFinals.0.side2Team.number }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {% if matchType == "Quarterfinals" %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="playoff_match">
+                            <input type="hidden" name="type" value="quarterFinals">
+                            <input type="hidden" name="number" value="1">
+                            {{ quarterFinals.1.side1Team.number }}
+                            <input type="radio" name="winner" value="{{ quarterFinals.1.side1Team.number }}" required>
+                            <br>
+                            {{ quarterFinals.1.side2Team.number }}
+                            <input type="radio" name="winner" value="{{ quarterFinals.1.side2Team.number }}" required>
+                            <br>
+                            <input type="submit" value="Submit" class="btn btn-sm btn-primary">
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="playoff_match">
+                        {{ quarterFinals.1.side1Team.number }}
+                        <br>
+                        {{ quarterFinals.1.side2Team.number }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col">
+                {% if matchType == "Semifinals" %}
+                <form method="post">
+                        {% csrf_token %}
+                        <div class="playoff_match">
+                            <input type="hidden" name="type" value="semiFinals">
+                            <input type="hidden" name="number" value="0">
+                            {{ semiFinals.0.side1Team.number }}
+                            <input type="radio" name="winner" value="{{ semiFinals.0.side1Team.number }}" required>
+                            <br>
+                            {{ semiFinals.0.side2Team.number }}
+                            <input type="radio" name="winner" value="{{ semiFinals.0.side2Team.number }}" required>
+                            <br>
+                            <input type="submit" value="Submit" class="btn btn-sm btn-primary">
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="playoff_match">
+                        {{ semiFinals.0.side1Team.number }}
+                        <br>
+                        {{ semiFinals.0.side2Team.number }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+
+            <div class="col">
+                {% if matchType == "Finals" %}
+                <form method="post">
+                        {% csrf_token %}
+                        <div class="playoff_match">
+                            <input type="hidden" name="type" value="finals">
+                            <input type="hidden" name="number" value="0">
+                            {{ finals.side1Team.number }}
+                            <input type="radio" name="winner" value="{{ finals.side1Team.number }}" required>
+                            <br>
+                            {{ finals.side2Team.number }}
+                            <input type="radio" name="winner" value="{{ finals.side2Team.number }}" required>
+                            <br>
+                            <input type="submit" value="Submit" class="btn btn-sm btn-primary">
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="playoff_match">
+                        {{ finals.side1Team.number }}
+                        <br>
+                        {{ finals.side2Team.number }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="col">
+                {{ champion.number }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {% if matchType == "Quarterfinals" %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="playoff_match">
+                            <input type="hidden" name="type" value="quarterFinals">
+                            <input type="hidden" name="number" value="2">
+                            {{ quarterFinals.2.side1Team.number }}
+                            <input type="radio" name="winner" value="{{ quarterFinals.2.side1Team.number }}" required>
+                            <br>
+                            {{ quarterFinals.2.side2Team.number }}
+                            <input type="radio" name="winner" value="{{ quarterFinals.2.side2Team.number }}" required>
+                            <br>
+                            <input type="submit" value="Submit" class="btn btn-sm btn-primary">
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="playoff_match">
+                        {{ quarterFinals.2.side1Team.number }}
+                        <br>
+                        {{ quarterFinals.2.side2Team.number }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col">
+                {% if matchType == "Semifinals" %}
+                <form method="post">
+                        {% csrf_token %}
+                        <div class="playoff_match">
+                            <input type="hidden" name="type" value="semiFinals">
+                            <input type="hidden" name="number" value="1">
+                            {{ semiFinals.1.side1Team.number }}
+                            <input type="radio" name="winner" value="{{ semiFinals.1.side1Team.number }}" required>
+                            <br>
+                            {{ semiFinals.1.side2Team.number }}
+                            <input type="radio" name="winner" value="{{ semiFinals.1.side2Team.number }}" required>
+                            <br>
+                            <input type="submit" value="Submit" class="btn btn-sm btn-primary">
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="playoff_match">
+                        {{ semiFinals.1.side1Team.number }}
+                        <br>
+                        {{ semiFinals.1.side2Team.number }}
+                    </div>
+                {% endif %}
+        </div>
+        <div class="row">
+            <div class="col">
+                {% if matchType == "Quarterfinals" %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="playoff_match">
+                            <input type="hidden" name="type" value="quarterFinals">
+                            <input type="hidden" name="number" value="3">
+                            {{ quarterFinals.3.side1Team.number }}
+                            <input type="radio" name="winner" value="{{ quarterFinals.3.side1Team.number }}" required>
+                            <br>
+                            {{ quarterFinals.3.side2Team.number }}
+                            <input type="radio" name="winner" value="{{ quarterFinals.3.side2Team.number }}" required>
+                            <br>
+                            <input type="submit" value="Submit" class="btn btn-sm btn-primary">
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="playoff_match">
+                        {{ quarterFinals.3.side1Team.number }}
+                        <br>
+                        {{ quarterFinals.3.side2Team.number }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <a class="btn btn-primary" href="{% url 'logout' %}">logout</a>
+{% endblock %}

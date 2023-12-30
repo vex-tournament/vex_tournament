@@ -41,6 +41,7 @@ class MatchForm(forms.Form):
 
         return cleaned_data
 
+
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
@@ -202,7 +203,8 @@ def alliance_selection(request, alliance_number):
     teams = Team.objects.all()
     teams = sorted(teams, key=lambda team: team.ranking_points, reverse=True)
 
-    return render(request, "tournament_site/alliance_selection.html", {"teams": teams, "alliance_number": alliance_number})
+    return render(request, "tournament_site/alliance_selection.html",
+                  {"teams": teams, "alliance_number": alliance_number})
 
 
 def playoffs(request):
@@ -214,4 +216,29 @@ def playoffs(request):
     teams = Team.objects.filter(alliance__isnull=False)
     teams = sorted(teams, key=lambda team: team.ranking_points, reverse=True)
 
-    return render(request, "tournament_site/playoffs.html", {"teams": teams})
+    quarterFinals = Bracket.objects.all()[0].Quarterfinals.all()
+    semiFinals = Bracket.objects.all()[0].Semifinals.all()
+    finals = Bracket.objects.all()[0].Finals.all()
+
+    matchType = "Finals"
+
+    for match in finals:
+        if match.winner is None:
+            matchType = "Semifinals"
+            break
+
+    if len(finals) == 0:
+        matchType = "Semifinals"
+
+    for match in semiFinals:
+        if match.winner is None:
+            matchType = "Quarterfinals"
+            break
+
+    if len(semiFinals) == 0:
+        matchType = "Quarterfinals"
+
+
+    return render(request, "tournament_site/playoffs.html",
+                  {"teams": teams, "quarterFinals": quarterFinals, "semiFinals": semiFinals, "finals": finals,
+                   "matchType": matchType})

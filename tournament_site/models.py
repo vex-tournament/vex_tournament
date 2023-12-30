@@ -45,6 +45,7 @@ class Bracket(models.Model):
 
 
 class PlayoffMatches(models.Model):
-    side1Team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side1TeamPlayoff")
-    side2Team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side2TeamPlayoff")
+    id = models.IntegerField(unique=True, primary_key=True)
+    side1Team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side1TeamPlayoff", blank=True, null=True)
+    side2Team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side2TeamPlayoff", blank=True, null=True)
     winner = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="winner", blank=True, null=True)

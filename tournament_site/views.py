@@ -42,6 +42,21 @@ class MatchForm(forms.Form):
         return cleaned_data
 
 
+class playoffMatchForm(forms.Form):
+    match_type = forms.CharField(label="Match Type")
+    match_id = forms.IntegerField(label="Match ID")
+    number = forms.IntegerField(label="Match Number")
+    winner = forms.IntegerField(label="Winner")
+
+    def clean(self):
+        cleaned_data = super(playoffMatchForm, self).clean()
+        match_type = cleaned_data.get("match_type")
+        number = cleaned_data.get("number")
+        winner = cleaned_data.get("winner")
+
+        return cleaned_data
+
+
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
@@ -192,11 +207,19 @@ def alliance_selection(request, alliance_number):
             seenTeams.add(team.alliance.number)
 
             playoff_match = PlayoffMatches.objects.create(
+                id=PlayoffMatches.objects.all().count(),
                 side1Team=team,
                 side2Team=team.alliance
             )
 
             bracket.Quarterfinals.add(playoff_match)
+
+        # add 2 empty semifinal matches
+        bracket.Semifinals.add(PlayoffMatches.objects.create(id=4))
+        bracket.Semifinals.add(PlayoffMatches.objects.create(id=5))
+
+        # add 1 empty final match
+        bracket.Finals.add(PlayoffMatches.objects.create(id=6))
 
         return redirect("/playoffs/")
 
@@ -213,6 +236,51 @@ def playoffs(request):
     if not user.is_staff:
         return redirect("/tournament/")
 
+    if request.method == "POST":
+        form = playoffMatchForm(request.POST)
+
+        if form.is_valid():
+            match_type = form.cleaned_data["match_type"]
+            match_id = form.cleaned_data["match_id"]
+            number = form.cleaned_data["number"]
+            winner = form.cleaned_data["winner"]
+
+            if match_type == "quarterFinals":
+                match = Bracket.objects.all()[0].Quarterfinals.get(id=match_id)
+            elif match_type == "semiFinals":
+                match = Bracket.objects.all()[0].Semifinals.get(id=match_id)
+            else:
+                match = Bracket.objects.all()[0].Finals.get(id=match_id)
+
+            match.winner = Team.objects.get(number=winner)
+            match.save()
+
+            if match_type == "quarterFinals":
+                if number < 2:
+                    # get next match
+                    nextMatch = Bracket.objects.all()[0].Semifinals.get(id=4)
+                else:
+                    nextMatch = Bracket.objects.all()[0].Semifinals.get(id=5)
+
+                if number % 2 == 0:
+                    nextMatch.side1Team = match.winner
+                else:
+                    nextMatch.side2Team = match.winner
+            elif match_type == "semiFinals":
+                nextMatch = Bracket.objects.all()[0].Finals.get(id=6)
+
+                if number % 2 == 0:
+                    nextMatch.side1Team = match.winner
+                else:
+                    nextMatch.side2Team = match.winner
+            else:
+                nextMatch = Bracket.objects.all()[0]
+                nextMatch.Winner = match.winner
+
+            nextMatch.save()
+
+        return redirect("/playoffs/")
+
     teams = Team.objects.filter(alliance__isnull=False)
     teams = sorted(teams, key=lambda team: team.ranking_points, reverse=True)
 
@@ -222,22 +290,15 @@ def playoffs(request):
 
     matchType = "Finals"
 
-    for match in finals:
+    for match in semiFinals:
         if match.winner is None:
             matchType = "Semifinals"
             break
 
-    if len(finals) == 0:
-        matchType = "Semifinals"
-
-    for match in semiFinals:
+    for match in quarterFinals:
         if match.winner is None:
             matchType = "Quarterfinals"
             break
-
-    if len(semiFinals) == 0:
-        matchType = "Quarterfinals"
-
 
     return render(request, "tournament_site/playoffs.html",
                   {"teams": teams, "quarterFinals": quarterFinals, "semiFinals": semiFinals, "finals": finals,

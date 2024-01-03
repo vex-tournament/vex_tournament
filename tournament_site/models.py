@@ -38,7 +38,7 @@ class Matches(models.Model):
 
 
 class Bracket(models.Model):
-    Quarterfinals = models.ManyToManyField("PlayoffMatches", related_name="Quarterfinals")
+    Quarterfinals = models.ManyToManyField("PlayoffMatches", related_name="Quarterfinals", blank=True)
     Semifinals = models.ManyToManyField("PlayoffMatches", related_name="Semifinals", blank=True)
     Finals = models.ManyToManyField("PlayoffMatches", related_name="Finals", blank=True)
     Winner = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="Winner", blank=True, null=True)

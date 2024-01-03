@@ -187,18 +187,45 @@ def alliance_selection(request, alliance_number):
 
             if alliance == "None":
                 team.alliance = None
+                team.save()
                 continue
 
             team.alliance = Team.objects.get(number=int(alliance))
             team.save()
 
-        # put teams into brackets
-        teams = Team.objects.filter(alliance__isnull=False)
+        # put teams into brackets, filtering out None teams
+        teams = Team.objects.all()
+
+        # filter out None teams
+        teams = [team for team in teams if team.alliance is not None]
 
         bracket = Bracket.objects.create()
 
         seenTeams = set()  # avoid duplicate teams
         side1Team = None
+
+        matches = []
+        print(len(teams))
+
+        # it is guaranteed that there will be an even number of teams with an alliance, so we can safely divide by two
+        if len(teams) // 2 % 2 == 1:
+            # add a bye for the first team if there is an odd number of teams
+            bye_match = PlayoffMatches.objects.create(
+                id=PlayoffMatches.objects.all().count(),
+                side1Team=teams[0],
+                side2Team=None
+            )
+
+            seenTeams.add(teams[0].number)
+            seenTeams.add(teams[0].alliance.number)
+
+            empty_match = PlayoffMatches.objects.create(id=PlayoffMatches.objects.all().count(), winner=teams[0])
+        else:
+            bye_match = None
+
+        # we can utilize rounding here because the answer will either be even or odd, and we want to increase the
+        # number by one if it is odd
+        match_num = round(len(teams) / 4)
 
         for team in teams:
             if team.number in seenTeams:
@@ -206,7 +233,6 @@ def alliance_selection(request, alliance_number):
 
             seenTeams.add(team.number)
             seenTeams.add(team.alliance.number)
-            print(side1Team)
 
             if side1Team is None:
                 side1Team = team
@@ -220,14 +246,41 @@ def alliance_selection(request, alliance_number):
 
             side1Team = None
 
-            bracket.Quarterfinals.add(playoff_match)
+            matches.append(playoff_match)
 
-        # add 2 empty semifinal matches
-        bracket.Semifinals.add(PlayoffMatches.objects.create(id=4))
-        bracket.Semifinals.add(PlayoffMatches.objects.create(id=5))
+        print(match_num)
 
-        # add 1 empty final match
-        bracket.Finals.add(PlayoffMatches.objects.create(id=6))
+        if match_num > 2:
+            if bye_match is not None:
+                bye_match.id = 4
+                bye_match.save()
+                bracket.Quarterfinals.add(empty_match)
+                bracket.Semifinals.add(bye_match)
+            else:
+                bracket.Semifinals.add(PlayoffMatches.objects.create(id=4))
+
+            for match in matches:
+                bracket.Quarterfinals.add(match)
+
+            # add the other SemiFinals match
+            bracket.Semifinals.add(PlayoffMatches.objects.create(id=5))
+
+            # add 1 empty final match
+            bracket.Finals.add(PlayoffMatches.objects.create(id=6))
+        elif match_num > 1:
+            if bye_match is not None:
+                bye_match.id = 6
+                bye_match.save()
+                bracket.Finals.add(bye_match)
+                bracket.Semifinals.add(empty_match)
+            else:
+                # add 1 empty final match
+                bracket.Finals.add(PlayoffMatches.objects.create(id=6))
+
+            for match in matches:
+                bracket.Semifinals.add(match)
+        else:
+            bracket.Finals.add(matches[0])
 
         return redirect("/playoffs/")
 

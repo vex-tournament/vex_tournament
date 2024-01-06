@@ -79,6 +79,9 @@ function selectAlliance(team) {
 
         // update the previous alliance's alliance
         document.getElementById("alliance_" + previousAlliance).value = "None";
+
+        // remove the previous alliance from the alliances object, or else it will clear the current team's alliance when the alliance's alliance has been set
+        delete alliances[previousAlliance];
     }
 
     // save the alliance

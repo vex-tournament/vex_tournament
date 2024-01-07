@@ -5,6 +5,14 @@ from django.contrib.auth import authenticate, login, logout
 from django import forms
 
 
+def goodRound(num):
+    # 0.5 is the threshold for rounding up
+    if num % 1 >= 0.5:
+        return int(num) + 1
+    else:
+        return int(num)
+
+
 class LoginForm(forms.Form):
     username = forms.CharField(label="Username", max_length=100)
     password = forms.CharField(label="Password", max_length=100, widget=forms.PasswordInput)
@@ -225,7 +233,7 @@ def alliance_selection(request, alliance_number):
 
         # we can utilize rounding here because the answer will either be even or odd, and we want to increase the
         # number by one if it is odd
-        match_num = round(len(teams) / 4)
+        match_num = goodRound(len(teams) / 4)
 
         for team in teams:
             if team.number in seenTeams:

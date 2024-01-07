@@ -16,10 +16,10 @@
                             <input type="hidden" name="match_type" value="quarterFinals">
                             <input type="hidden" name="match_id" value="{{ quarterFinals.0.id }}">
                             <input type="hidden" name="number" value="0">
-                            {{ quarterFinals.0.side1Team.number }} & {{ quarterFinals.0.side1Team.alliance.number }}
+                            {{ quarterFinals.0.side1Team.number }} | {{ quarterFinals.0.side1Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ quarterFinals.0.side1Team.number }}" required>
                             <br>
-                            {{ quarterFinals.0.side2Team.number }} & {{ quarterFinals.0.side2Team.alliance.number }}
+                            {{ quarterFinals.0.side2Team.number }} | {{ quarterFinals.0.side2Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ quarterFinals.0.side2Team.number }}" required>
                             <br>
                             <input type="submit" value="Submit" class="btn btn-sm btn-primary">
@@ -27,9 +27,9 @@
                     </form>
                 {% else %}
                     <div class="playoff_match" id="playoff0">
-                        {{ quarterFinals.0.side1Team.number }} & {{ quarterFinals.0.side1Team.alliance.number }}
+                        {{ quarterFinals.0.side1Team.number }} | {{ quarterFinals.0.side1Team.alliance.number }}
                         <br>
-                        {{ quarterFinals.0.side2Team.number }} & {{ quarterFinals.0.side2Team.alliance.number }}
+                        {{ quarterFinals.0.side2Team.number }} | {{ quarterFinals.0.side2Team.alliance.number }}
                     </div>
                 {% endif %}
             </div>
@@ -43,10 +43,10 @@
                             <input type="hidden" name="match_type" value="quarterFinals">
                             <input type="hidden" name="match_id" value="{{ quarterFinals.1.id }}">
                             <input type="hidden" name="number" value="1">
-                            {{ quarterFinals.1.side1Team.number }} & {{ quarterFinals.1.side1Team.alliance.number }}
+                            {{ quarterFinals.1.side1Team.number }} | {{ quarterFinals.1.side1Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ quarterFinals.1.side1Team.number }}" required>
                             <br>
-                            {{ quarterFinals.1.side2Team.number }} & {{ quarterFinals.1.side2Team.alliance.number }}
+                            {{ quarterFinals.1.side2Team.number }} | {{ quarterFinals.1.side2Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ quarterFinals.1.side2Team.number }}" required>
                             <br>
                             <input type="submit" value="Submit" class="btn btn-sm btn-primary">
@@ -54,9 +54,9 @@
                     </form>
                 {% else %}
                     <div class="playoff_match" id="playoff1">
-                        {{ quarterFinals.1.side1Team.number }} & {{ quarterFinals.1.side1Team.alliance.number }}
+                        {{ quarterFinals.1.side1Team.number }} | {{ quarterFinals.1.side1Team.alliance.number }}
                         <br>
-                        {{ quarterFinals.1.side2Team.number }} & {{ quarterFinals.1.side2Team.alliance.number }}
+                        {{ quarterFinals.1.side2Team.number }} | {{ quarterFinals.1.side2Team.alliance.number }}
                     </div>
                 {% endif %}
             </div>
@@ -68,10 +68,10 @@
                             <input type="hidden" name="match_type" value="semiFinals">
                             <input type="hidden" name="match_id" value="{{ semiFinals.0.id }}">
                             <input type="hidden" name="number" value="0">
-                            {{ semiFinals.0.side1Team.number }} & {{ semiFinals.0.side1Team.alliance.number }}
+                            {{ semiFinals.0.side1Team.number }} | {{ semiFinals.0.side1Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ semiFinals.0.side1Team.number }}" required>
                             <br>
-                            {{ semiFinals.0.side2Team.number }} & {{ semiFinals.0.side2Team.alliance.number }}
+                            {{ semiFinals.0.side2Team.number }} | {{ semiFinals.0.side2Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ semiFinals.0.side2Team.number }}" required>
                             <br>
                             <input type="submit" value="Submit" class="btn btn-sm btn-primary">
@@ -79,9 +79,9 @@
                     </form>
                 {% else %}
                     <div class="playoff_match" id="playoff4">
-                        {{ semiFinals.0.side1Team.number }} & {{ semiFinals.0.side1Team.alliance.number }}
+                        {{ semiFinals.0.side1Team.number }} | {{ semiFinals.0.side1Team.alliance.number }}
                         <br>
-                        {{ semiFinals.0.side2Team.number }} & {{ semiFinals.0.side2Team.alliance.number }}
+                        {{ semiFinals.0.side2Team.number }} | {{ semiFinals.0.side2Team.alliance.number }}
                     </div>
                 {% endif %}
             </div>
@@ -100,10 +100,10 @@
                             <input type="hidden" name="match_type" value="finals">
                             <input type="hidden" name="match_id" value="{{ finals.0.id }}">
                             <input type="hidden" name="number" value="0">
-                            {{ finals.0.side1Team.number }} & {{ finals.0.side1Team.alliance.number }}
+                            {{ finals.0.side1Team.number }} | {{ finals.0.side1Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ finals.0.side1Team.number }}" required>
                             <br>
-                            {{ finals.0.side2Team.number }} & {{ finals.0.side2Team.alliance.number }}
+                            {{ finals.0.side2Team.number }} | {{ finals.0.side2Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ finals.0.side2Team.number }}" required>
                             <br>
                             <input type="submit" value="Submit" class="btn btn-sm btn-primary">
@@ -111,9 +111,9 @@
                     </form>
                 {% else %}
                     <div class="playoff_match" id="playoff6">
-                        {{ finals.0.side1Team.number }} & {{ finals.0.side1Team.alliance.number }}
+                        {{ finals.0.side1Team.number }} | {{ finals.0.side1Team.alliance.number }}
                         <br>
-                        {{ finals.0.side2Team.number }} & {{ finals.0.side2Team.alliance.number }}
+                        {{ finals.0.side2Team.number }} | {{ finals.0.side2Team.alliance.number }}
                     </div>
                 {% endif %}
             </div>
@@ -121,7 +121,7 @@
             <div class="col">
                 <div class="playoff_match" id="playoff7">
                     <br>
-                    {{ winner.number }} & {{ winner.alliance.number }}
+                    {{ winner.number }} | {{ winner.alliance.number }}
 
                 </div>
             </div>
@@ -135,10 +135,10 @@
                             <input type="hidden" name="match_type" value="quarterFinals">
                             <input type="hidden" name="match_id" value="{{ quarterFinals.2.id }}">
                             <input type="hidden" name="number" value="2">
-                            {{ quarterFinals.2.side1Team.number }} & {{ quarterFinals.2.side1Team.alliance.number }}
+                            {{ quarterFinals.2.side1Team.number }} | {{ quarterFinals.2.side1Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ quarterFinals.2.side1Team.number }}" required>
                             <br>
-                            {{ quarterFinals.2.side2Team.number }} & {{ quarterFinals.2.side2Team.alliance.number }}
+                            {{ quarterFinals.2.side2Team.number }} | {{ quarterFinals.2.side2Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ quarterFinals.2.side2Team.number }}" required>
                             <br>
                             <input type="submit" value="Submit" class="btn btn-sm btn-primary">
@@ -146,9 +146,9 @@
                     </form>
                 {% else %}
                     <div class="playoff_match" id="playoff2">
-                        {{ quarterFinals.2.side1Team.number }} & {{ quarterFinals.2.side1Team.alliance.number }}
+                        {{ quarterFinals.2.side1Team.number }} | {{ quarterFinals.2.side1Team.alliance.number }}
                         <br>
-                        {{ quarterFinals.2.side2Team.number }} & {{ quarterFinals.2.side2Team.alliance.number }}
+                        {{ quarterFinals.2.side2Team.number }} | {{ quarterFinals.2.side2Team.alliance.number }}
                     </div>
                 {% endif %}
             </div>
@@ -160,10 +160,10 @@
                             <input type="hidden" name="match_type" value="semiFinals">
                             <input type="hidden" name="match_id" value="{{ semiFinals.1.id }}">
                             <input type="hidden" name="number" value="1">
-                            {{ semiFinals.1.side1Team.number }} & {{ semiFinals.1.side1Team.alliance.number }}
+                            {{ semiFinals.1.side1Team.number }} | {{ semiFinals.1.side1Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ semiFinals.1.side1Team.number }}" required>
                             <br>
-                            {{ semiFinals.1.side2Team.number }} & {{ semiFinals.1.side2Team.alliance.number }}
+                            {{ semiFinals.1.side2Team.number }} | {{ semiFinals.1.side2Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ semiFinals.1.side2Team.number }}" required>
                             <br>
                             <input type="submit" value="Submit" class="btn btn-sm btn-primary">
@@ -171,9 +171,9 @@
                     </form>
                 {% else %}
                     <div class="playoff_match" id="playoff5">
-                        {{ semiFinals.1.side1Team.number }} & {{ semiFinals.1.side1Team.alliance.number }}
+                        {{ semiFinals.1.side1Team.number }} | {{ semiFinals.1.side1Team.alliance.number }}
                         <br>
-                        {{ semiFinals.1.side2Team.number }} & {{ semiFinals.1.side2Team.alliance.number }}
+                        {{ semiFinals.1.side2Team.number }} | {{ semiFinals.1.side2Team.alliance.number }}
                     </div>
                 {% endif %}
             </div>
@@ -189,10 +189,10 @@
                             <input type="hidden" name="match_type" value="quarterFinals">
                             <input type="hidden" name="match_id" value="{{ quarterFinals.3.id }}">
                             <input type="hidden" name="number" value="3">
-                            {{ quarterFinals.3.side1Team.number }} & {{ quarterFinals.3.side1Team.alliance.number }}
+                            {{ quarterFinals.3.side1Team.number }} | {{ quarterFinals.3.side1Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ quarterFinals.3.side1Team.number }}" required>
                             <br>
-                            {{ quarterFinals.3.side2Team.number }} & {{ quarterFinals.3.side2Team.alliance.number }}
+                            {{ quarterFinals.3.side2Team.number }} | {{ quarterFinals.3.side2Team.alliance.number }}
                             <input type="radio" name="winner" value="{{ quarterFinals.3.side2Team.number }}" required>
                             <br>
                             <input type="submit" value="Submit" class="btn btn-sm btn-primary">
@@ -200,9 +200,9 @@
                     </form>
                 {% else %}
                     <div class="playoff_match" id="playoff3">
-                        {{ quarterFinals.3.side1Team.number }} & {{ quarterFinals.3.side1Team.alliance.number }}
+                        {{ quarterFinals.3.side1Team.number }} | {{ quarterFinals.3.side1Team.alliance.number }}
                         <br>
-                        {{ quarterFinals.3.side2Team.number }} & {{ quarterFinals.3.side2Team.alliance.number }}
+                        {{ quarterFinals.3.side2Team.number }} | {{ quarterFinals.3.side2Team.alliance.number }}
                     </div>
                 {% endif %}
             </div>

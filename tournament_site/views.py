@@ -144,7 +144,7 @@ def manage_tournament(request):
 
             # fields
             fields = Field.objects.all()
-            matches = Matches.objects.all().order_by("time")
+            matches = Matches.objects.all().order_by("number")
             teams = reversed(Team.objects.all().order_by("ranking_points"))
 
             return render(

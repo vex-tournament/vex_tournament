@@ -207,6 +207,9 @@ def alliance_selection(request, alliance_number):
         # filter out None teams
         teams = [team for team in teams if team.alliance is not None]
 
+        # sort teams by ranking points, because the bye should be given to the highest ranked team
+        teams = sorted(teams, key=lambda team: team.ranking_points, reverse=True)
+
         bracket = Bracket.objects.create()
 
         seenTeams = set()  # avoid duplicate teams

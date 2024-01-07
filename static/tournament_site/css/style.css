@@ -8,3 +8,8 @@ h1 {
     margin: 1em;
     padding: 1em;
 }
+
+.field_table {
+    overflow-x:auto;
+    max-height: 85vh;
+}

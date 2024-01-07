@@ -19,3 +19,11 @@ h2 {
     overflow-x:auto;
     max-height: 85vh;
 }
+
+.alliance_table {
+    overflow-x:auto;
+    max-height: 80vh;
+    border: gray 1px solid;
+    margin-left: auto;
+    margin-right: auto;
+}

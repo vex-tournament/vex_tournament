@@ -47,11 +47,17 @@ let alliances = {
 
 function selectAlliance(team) {
     // get the team's current alliance
-    let currentAlliance = document.getElementById("alliance_" + team).value;
+    let teamElement = document.getElementById("alliance_" + team)
+    let currentAlliance = teamElement.value;
 
     if (currentAlliance !== "None") {
         // update the alliance's alliance
-        document.getElementById("alliance_" + currentAlliance).value = team;
+        let allianceElement = document.getElementById("alliance_" + currentAlliance);
+        allianceElement.value = team;
+
+        teamElement.parentElement.parentElement.classList.add("table-success");
+        allianceElement.parentElement.parentElement.classList.add("table-success");
+
 
         let allianceOptions = document.getElementsByClassName("allianceOption_" + currentAlliance);
         for (let i = 0; i < allianceOptions.length; i++) {
@@ -64,6 +70,7 @@ function selectAlliance(team) {
             teamOptions[i].disabled = true;
         }
     } else {
+        teamElement.parentElement.parentElement.classList.remove("table-success");
         // enable the current team
         let teamOptions = document.getElementsByClassName("allianceOption_" + team);
         for (let i = 0; i < teamOptions.length; i++) {
@@ -82,7 +89,9 @@ function selectAlliance(team) {
         }
 
         // update the previous alliance's alliance
-        document.getElementById("alliance_" + previousAlliance).value = "None";
+        let prevAllianceElement = document.getElementById("alliance_" + previousAlliance);
+        prevAllianceElement.value = "None";
+        prevAllianceElement.parentElement.parentElement.classList.remove("table-success")
 
         // remove the previous alliance from the alliances object, or else it will clear the current team's alliance when the alliance's alliance has been set
         delete alliances[previousAlliance];

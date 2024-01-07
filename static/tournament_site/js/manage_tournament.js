@@ -124,3 +124,36 @@ function selectAlliance(team) {
         }
     }
 }
+
+
+document.addEventListener("DOMContentLoaded", (event) => {
+    // get the scoreboard table
+    let scoreboardTable = document.getElementById("scoreboard");
+
+    if (scoreboardTable !== null) {
+        // get the number of teams
+        let teamNumber = scoreboardTable.rows.length - 1;
+
+        if (teamNumber > 20) {
+            // move the rest of the teams to a new column
+            let overflowedTeams = [];
+
+            for (let i = 21; i <= teamNumber; i++) {
+                overflowedTeams.push(scoreboardTable.rows[i].innerHTML);
+            }
+
+            // add 3 columns to the table
+            scoreboardTable.rows[0].innerHTML += "<th>Rank</th><th>Team</th><th>RP</th>";
+
+            // remove the overflowed teams
+            for (let i = 21; i <= teamNumber; i++) {
+                scoreboardTable.deleteRow(21);
+            }
+
+            // readd the overflowed teams, but in the same rows as the first 20 teams
+            for (let i = 0; i < overflowedTeams.length; i++) {
+                scoreboardTable.rows[i + 1].innerHTML += overflowedTeams[i];
+            }
+        }
+    }
+});

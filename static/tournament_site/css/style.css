@@ -2,6 +2,10 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    text-align: center;
+}
+
 .playoff_match {
     border: 1px solid black;
     display: inline-block;

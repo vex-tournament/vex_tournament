@@ -41,5 +41,10 @@
         <input type="submit" class="btn btn-primary mb-2" value="Submit">
     </form>
 
-    <a class="btn btn-primary" href="{% url 'logout' %}">logout</a>
+    <div class="mb-2">
+        <a class="btn btn-danger" href="{% url 'manage_tournament' %}">Back</a>
+    </div>
+    <div>
+        <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
+    </div>
 {% endblock %}

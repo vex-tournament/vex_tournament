@@ -20,6 +20,10 @@ function updateCompleted(completedInput) {
 }
 
 function allianceSelection() {
+    // temporary, because there is no use for this page yet
+    window.location.href = "/alliance_selection/" + 8;
+    return;
+
     let allianceNumber = prompt("Enter the number of alliances you want to select (1-8): ");
 
     if (allianceNumber === null) {

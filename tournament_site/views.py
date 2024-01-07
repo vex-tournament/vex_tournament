@@ -105,6 +105,10 @@ def manage_tournament(request):
 
         if user.is_staff:
             # staff user
+            if Bracket.objects.all().count() != 0:
+                # redirect to playoffs if bracket has been created, meaning playoffs have started
+                return redirect("/playoffs/")
+
             if request.method == "POST":
                 # handle form
                 form = MatchForm(request.POST)
@@ -187,6 +191,10 @@ def alliance_selection(request, alliance_number):
     if not user.is_staff:
         return redirect("/tournament/")
 
+    if Bracket.objects.all().count() != 0:
+        # redirect to playoffs if bracket has been created, meaning playoffs have started
+        return redirect("/playoffs/")
+
     if request.method == "POST":
         teams = Team.objects.all()
 
@@ -258,8 +266,6 @@ def alliance_selection(request, alliance_number):
             side1Team = None
 
             matches.append(playoff_match)
-
-        print(match_num)
 
         if match_num > 2:
             if bye_match is not None:

@@ -92,14 +92,19 @@ function selectAlliance(team) {
         let prevAllianceElement = document.getElementById("alliance_" + previousAlliance);
         prevAllianceElement.value = "None";
         prevAllianceElement.parentElement.parentElement.classList.remove("table-success")
-
-        // remove the previous alliance from the alliances object, or else it will clear the current team's alliance when the alliance's alliance has been set
-        delete alliances[previousAlliance];
     }
 
+    delete alliances[alliances[team]]
+    delete alliances[team];
+
     // save the alliance
-    alliances[team] = currentAlliance;
-    alliances[currentAlliance] = team;
+    if (currentAlliance !== "None") {
+        alliances[team] = currentAlliance;
+        alliances[currentAlliance] = team;
+    }
+
+    // update alliance count
+    document.getElementById("alliance-count").innerHTML = "Number of Alliances: " + (Object.keys(alliances).length / 2);
 
     // undisable the input for team and alliance, because disabled values are not sent to the server
     let currentTeam = document.getElementById("alliance_" + team).options;

@@ -5,38 +5,42 @@
     <script src="{% static 'tournament_site/js/manage_tournament.js' %}"></script>
 
     <h1> VEX tournament Alliance Selection</h1>
+    <h2 id="alliance-count">Number of Alliances: 0</h2>
 
     <form method="POST">
         {%  csrf_token %}
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Team</th>
-                    <th scope="col">Ranking Points</th>
-                    <th scope="col">Alliance</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for team in teams %}
+        <div class="alliance_table">
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <th>{{ forloop.counter }}</th>
-                        <td>{{ team.number }}</td>
-                        <td>{{ team.ranking_points }}</td>
-                        <td>
-                            <select class="form-control" name="{{ team.number }}" onchange="selectAlliance({{ team.number }})" id="alliance_{{ team.number }}">
-                                <option value="None">None</option>
-                                {% for selectTeams in teams %}
-                                    {% if team.number != selectTeams.number %}
-                                        <option value="{{ selectTeams.number }}" class="allianceOption_{{ selectTeams.number }}">{{ selectTeams.number }}</option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        </td>
+                        <th scope="col"></th>
+                        <th scope="col">Team</th>
+                        <th scope="col">Ranking Points</th>
+                        <th scope="col">Alliance</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for team in teams %}
+                        <tr>
+                            <th>{{ forloop.counter }}</th>
+                            <td>{{ team.number }}</td>
+                            <td>{{ team.ranking_points }}</td>
+                            <td>
+                                <select class="form-control" name="{{ team.number }}" onchange="selectAlliance({{ team.number }})" id="alliance_{{ team.number }}">
+                                    <option value="None">None</option>
+                                    {% for selectTeams in teams %}
+                                        {% if team.number != selectTeams.number %}
+                                            <option value="{{ selectTeams.number }}" class="allianceOption_{{ selectTeams.number }}">{{ selectTeams.number }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
 
         <input type="submit" class="btn btn-primary mb-2" value="Submit">
     </form>

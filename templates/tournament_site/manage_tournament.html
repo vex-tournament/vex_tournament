@@ -47,7 +47,7 @@
                                     <th scope="col">RP {{ field.side1 }}</th>
                                     <th scope="col">{{ field.side2 }}</th>
                                     <th scope="col">RP {{ field.side2 }}</th>
-                                    <th scope="col">Complete</th>
+                                    <th scope="col"></th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -72,7 +72,7 @@
                                             <td>{{ match.side2Team.number }}</td>
                                             <td><input class="form-control" type="number" id="side2RP_{{ match.number }}" min="0" max="9" value="{{ match.side2RankingPoints }}" onchange="updateRP(this)"></td>
                                             <td><input class="form-check" type="checkbox" id="completed_{{ match.number }}" onchange="updateCompleted(this)" {% if match.completed %}checked{% endif %}></td>
-                                            <td><input class="btn btn-primary btn-sm" type="submit" value="Confirm" form="match_{{ match.number }}"></td>
+                                            <td><input class="btn btn-primary btn-sm" type="submit" value="Save" form="match_{{ match.number }}"></td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}

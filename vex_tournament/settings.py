@@ -30,6 +30,8 @@ DEBUG = env['debug']
 
 ALLOWED_HOSTS = env['allowed_hosts']
 
+STATIC_ROOT = env['static_root']
+
 
 # Application definition
 

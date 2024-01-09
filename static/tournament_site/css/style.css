@@ -6,6 +6,11 @@ h2 {
     text-align: center;
 }
 
+footer {
+    text-align: center;
+    margin-top: 1em;
+}
+
 .playoff_match {
     border: 1px solid black;
     display: inline-block;

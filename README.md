@@ -6,6 +6,7 @@ A website to manage robotics tournaments, built using Django. The production web
 ## Requirements
 - Python 3
 - Gunicorn (production only)
+- Just (production only)
 
 ## Installation
 1. Clone the repository
@@ -36,3 +37,7 @@ If you only need it for development. The site should now be accessible. However,
 7. Collect static files with `python3 manage.py collectstatic`.
 8. Because `python manage.py runserver` is for development servers and is insecure, you should run the server with gunicorn instead. Run `gunicorn vex_tournament.wsgi:application --bind 0.0.0.0:8000` to start the server.
 9. The server should now be accessible at `0.0.0.0:8000`. In order to make it accessible from the internet, use a reverse proxy such as [nginx](https://nginx.org).
+10. The production server uses the `justfile` to start the server. Configure the justfile and run `just` in the project directory to easily start the server.
+
+## Usage
+The main site will not be useful until the tournament is configured. Configure the server at `YOUR-URL/admin`. To reset the playoffs, delete every object in `Playoff Matchess` and `Brackets` at `YOUR-URL/admin`.

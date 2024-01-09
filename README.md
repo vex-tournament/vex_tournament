@@ -34,7 +34,7 @@ The `.env` stores settings that are used by `vex_tournament/settings.py`. Here i
 
 If you only need it for development. The site should now be accessible. However, more configuration is required to run a secure production server.
 
-7. Collect static files with `python3 manage.py collectstatic`.
+7. Collect static files with `python manage.py collectstatic`.
 8. Because `python manage.py runserver` is for development servers and is insecure, you should run the server with gunicorn instead. Run `gunicorn vex_tournament.wsgi:application --bind 0.0.0.0:8000` to start the server.
 9. The server should now be accessible at `0.0.0.0:8000`. In order to make it accessible from the internet, use a reverse proxy such as [nginx](https://nginx.org).
 10. The production server uses the `justfile` to start the server. Configure the justfile and run `just` in the project directory to easily start the server.

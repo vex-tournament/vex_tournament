@@ -197,6 +197,16 @@ def alliance_selection(request, alliance_number):
 
     if request.method == "POST":
         teams = Team.objects.all()
+        playoff_teams = [None]*8
+
+        number_of_teams = 0
+
+        for team in teams:
+            position = request.POST.get(f"{team.number}_position")
+
+            if position != "None":
+                playoff_teams[int(position) - 1] = team
+                number_of_teams += 1
 
         for team in teams:
             alliance = request.POST.get(str(team.number))
@@ -212,87 +222,84 @@ def alliance_selection(request, alliance_number):
         # put teams into brackets, filtering out None teams
         teams = Team.objects.all()
 
-        # filter out None teams
-        teams = [team for team in teams if team.alliance is not None]
 
-        # sort teams by ranking points, because the bye should be given to the highest ranked team
-        teams = sorted(teams, key=lambda team: team.ranking_points, reverse=True)
-
-        bracket = Bracket.objects.create()
 
         seenTeams = set()  # avoid duplicate teams
-        side1Team = None
 
         matches = []
-        print(len(teams))
 
         # it is guaranteed that there will be an even number of teams with an alliance, so we can safely divide by two
-        if len(teams) // 2 % 2 == 1:
+        if number_of_teams // 2 % 2 == 1:
             # add a bye for the first team if there is an odd number of teams
             bye_match = PlayoffMatches.objects.create(
                 id=PlayoffMatches.objects.all().count(),
-                side1Team=teams[0],
+                side1Team=playoff_teams[0],
                 side2Team=None
             )
 
-            seenTeams.add(teams[0].number)
-            seenTeams.add(teams[0].alliance.number)
+            seenTeams.add(playoff_teams[0].number)
+            seenTeams.add(playoff_teams[0].alliance.number)
 
-            empty_match = PlayoffMatches.objects.create(id=PlayoffMatches.objects.all().count(), winner=teams[0])
+            empty_match = PlayoffMatches.objects.create(id=PlayoffMatches.objects.all().count(), winner=playoff_teams[0])
         else:
             bye_match = None
 
         # we can utilize rounding here because the answer will either be even or odd, and we want to increase the
         # number by one if it is odd
-        match_num = goodRound(len(teams) / 4)
+        match_num = goodRound(number_of_teams / 4)
+        alliance_num = number_of_teams // 2
 
-        for team in teams:
+        for pos in range(match_num):
+            team = playoff_teams[pos]
+
+            # team2 is the i - pos team
+            if bye_match is None:
+                side2Team = playoff_teams[alliance_num - pos - 1]
+            else:
+                side2Team = playoff_teams[alliance_num - pos]
+
             if team.number in seenTeams:
                 continue
 
             seenTeams.add(team.number)
             seenTeams.add(team.alliance.number)
-
-            if side1Team is None:
-                side1Team = team
-                continue
-
             playoff_match = PlayoffMatches.objects.create(
                 id=PlayoffMatches.objects.all().count(),
-                side1Team=side1Team,
-                side2Team=team
+                side1Team=team,
+                side2Team=side2Team
             )
-
-            side1Team = None
 
             matches.append(playoff_match)
 
+        bracket = Bracket.objects.create()
+
         if match_num > 2:
+            print(bye_match)
             if bye_match is not None:
-                bye_match.id = 4
+                bye_match.id = 5
                 bye_match.save()
                 bracket.Quarterfinals.add(empty_match)
                 bracket.Semifinals.add(bye_match)
             else:
-                bracket.Semifinals.add(PlayoffMatches.objects.create(id=4))
+                bracket.Semifinals.add(PlayoffMatches.objects.create(id=5))
 
             for match in matches:
                 bracket.Quarterfinals.add(match)
 
             # add the other SemiFinals match
-            bracket.Semifinals.add(PlayoffMatches.objects.create(id=5))
+            bracket.Semifinals.add(PlayoffMatches.objects.create(id=6))
 
             # add 1 empty final match
-            bracket.Finals.add(PlayoffMatches.objects.create(id=6))
+            bracket.Finals.add(PlayoffMatches.objects.create(id=7))
         elif match_num > 1:
             if bye_match is not None:
-                bye_match.id = 6
+                bye_match.id = 7
                 bye_match.save()
                 bracket.Finals.add(bye_match)
                 bracket.Semifinals.add(empty_match)
             else:
                 # add 1 empty final match
-                bracket.Finals.add(PlayoffMatches.objects.create(id=6))
+                bracket.Finals.add(PlayoffMatches.objects.create(id=7))
 
             for match in matches:
                 bracket.Semifinals.add(match)
@@ -336,16 +343,16 @@ def playoffs(request):
             if match_type == "quarterFinals":
                 if number < 2:
                     # get next match
-                    nextMatch = Bracket.objects.all()[0].Semifinals.get(id=4)
-                else:
                     nextMatch = Bracket.objects.all()[0].Semifinals.get(id=5)
+                else:
+                    nextMatch = Bracket.objects.all()[0].Semifinals.get(id=6)
 
                 if number % 2 == 0:
                     nextMatch.side1Team = match.winner
                 else:
                     nextMatch.side2Team = match.winner
             elif match_type == "semiFinals":
-                nextMatch = Bracket.objects.all()[0].Finals.get(id=6)
+                nextMatch = Bracket.objects.all()[0].Finals.get(id=7)
 
                 if number % 2 == 0:
                     nextMatch.side1Team = match.winner
@@ -362,7 +369,7 @@ def playoffs(request):
     teams = Team.objects.filter(alliance__isnull=False)
     teams = sorted(teams, key=lambda team: team.ranking_points, reverse=True)
 
-    quarterFinals = Bracket.objects.all()[0].Quarterfinals.all()
+    quarterFinals = list(Bracket.objects.all()[0].Quarterfinals.all())
     semiFinals = Bracket.objects.all()[0].Semifinals.all()
     finals = Bracket.objects.all()[0].Finals.all()
     winner = Bracket.objects.all()[0].Winner
@@ -377,6 +384,12 @@ def playoffs(request):
     for match in quarterFinals:
         if match.winner is None:
             matchType = "Quarterfinals"
+
+            # swap the second and third matches
+            temp = quarterFinals[1]
+            quarterFinals[1] = quarterFinals[2]
+            quarterFinals[2] = temp
+
             break
 
     return render(request, "tournament_site/playoffs.html",

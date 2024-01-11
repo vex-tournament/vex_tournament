@@ -45,10 +45,15 @@ let alliances = {
 
 }
 
+let positions = {
+
+}
+
 function selectAlliance(team) {
     // get the team's current alliance
     let teamElement = document.getElementById("alliance_" + team)
     let currentAlliance = teamElement.value;
+    let teamPosition = document.getElementById(team + "_position").value;
 
     if (currentAlliance !== "None") {
         // update the alliance's alliance
@@ -69,6 +74,9 @@ function selectAlliance(team) {
         for (let i = 0; i < teamOptions.length; i++) {
             teamOptions[i].disabled = true;
         }
+
+        // set the alliance's position to the team's position
+        document.getElementById(currentAlliance + "_position").value = teamPosition;
     } else {
         teamElement.parentElement.parentElement.classList.remove("table-success");
         // enable the current team
@@ -92,6 +100,11 @@ function selectAlliance(team) {
         let prevAllianceElement = document.getElementById("alliance_" + previousAlliance);
         prevAllianceElement.value = "None";
         prevAllianceElement.parentElement.parentElement.classList.remove("table-success")
+
+        // change the previous alliance's position to None
+        document.getElementById(previousAlliance + "_position").value = "None";
+
+        delete positions[previousAlliance]
     }
 
     delete alliances[alliances[team]]
@@ -120,6 +133,73 @@ function selectAlliance(team) {
 
     for (let i = 0; i < currentAllianceOptions.length; i++) {
         if (currentAllianceOptions[i].value === team.toString()) {
+            currentAllianceOptions[i].disabled = false;
+        }
+    }
+
+    // change the position
+    changePos(team);
+}
+
+function changePos(team) {
+    let position = document.getElementById(team + "_position").value;
+    let alliance = alliances[team];
+
+    // undisable the past position
+    let pastPosition = positions[team];
+    let pastPositionOptions = document.getElementsByClassName("positionOption_" + pastPosition);
+
+    for (let i = 0; i < pastPositionOptions.length; i++) {
+        pastPositionOptions[i].disabled = false;
+    }
+
+    if (alliance !== undefined) {
+        // set the alliance's position to the team's position
+        document.getElementById(alliance + "_position").value = position;
+    }
+
+    if (position === "None") {
+        // undisable the past position
+        let pastPosition = positions[team];
+        let pastPositionOptions = document.getElementsByClassName("positionOption_" + pastPosition);
+
+        for (let i = 0; i < pastPositionOptions.length; i++) {
+            pastPositionOptions[i].disabled = false;
+        }
+
+        delete positions[team];
+        delete positions[alliance];
+
+        return;
+    } else {
+        positions[team] = position;
+
+        if (alliance !== undefined) {
+            positions[alliance] = position;
+        }
+    }
+
+    // disable the team's position
+    let positionOptions = document.getElementsByClassName("positionOption_" + position);
+
+    for (let i = 0; i < positionOptions.length; i++) {
+        positionOptions[i].disabled = true;
+    }
+
+    // undisable the input for team and alliance, because disabled values are not sent to the server
+    let currentTeam = document.getElementById(team + "_position").options;
+
+    for (let i = 0; i < currentTeam.length; i++) {
+        if (currentTeam[i].value === position) {
+            currentTeam[i].disabled = false;
+        }
+    }
+
+    // repeat for the alliance
+    let currentAllianceOptions = document.getElementById(alliance + "_position").options;
+
+    for (let i = 0; i < currentAllianceOptions.length; i++) {
+        if (currentAllianceOptions[i].value === position) {
             currentAllianceOptions[i].disabled = false;
         }
     }

@@ -305,7 +305,7 @@ def alliance_selection(request, alliance_number):
     teams = sorted(teams, key=lambda team: team.ranking_points, reverse=True)
 
     return render(request, "tournament_site/alliance_selection.html",
-                  {"teams": teams, "alliance_number": alliance_number})
+                  {"teams": teams, "alliance_number": alliance_number, "range8": range(1, 9)})
 
 
 def playoffs(request):

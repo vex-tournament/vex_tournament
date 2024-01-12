@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                {% if matchType == "Quarterfinals" %}
+                {% if quarterFinalsEnabled.0 %}
                     <form method="post">
                         {% csrf_token %}
                         <div class="playoff_match" id="playoff0">
@@ -35,7 +35,7 @@
         </div>
         <div class="row">
             <div class="col">
-                {% if matchType == "Quarterfinals" %}
+                {% if quarterFinalsEnabled.1 %}
                     <form method="post">
                         {% csrf_token %}
                         <div class="playoff_match" id="playoff1">
@@ -59,7 +59,7 @@
                 {% endif %}
             </div>
             <div class="col">
-                {% if matchType == "Semifinals" %}
+                {% if semiFinalsEnabled.0 %}
                 <form method="post">
                         {% csrf_token %}
                         <div class="playoff_match" id="playoff4">
@@ -90,7 +90,7 @@
             <div class="col"></div>
 
             <div class="col">
-                {% if matchType == "Finals" %}
+                {% if finalsEnabled %}
                 <form method="post">
                         {% csrf_token %}
                         <div class="playoff_match" id="playoff6">
@@ -122,7 +122,7 @@
         </div>
         <div class="row">
             <div class="col">
-                {% if matchType == "Quarterfinals" %}
+                {% if quarterFinalsEnabled.2 %}
                     <form method="post">
                         {% csrf_token %}
                         <div class="playoff_match" id="playoff2">
@@ -146,7 +146,7 @@
                 {% endif %}
             </div>
             <div class="col">
-                {% if matchType == "Semifinals" %}
+                {% if semiFinalsEnabled.1 %}
                 <form method="post">
                         {% csrf_token %}
                         <div class="playoff_match" id="playoff5">
@@ -174,7 +174,7 @@
         </div>
         <div class="row">
             <div class="col">
-                {% if matchType == "Quarterfinals" %}
+                {% if quarterFinalsEnabled.3 %}
                     <form method="post">
                         {% csrf_token %}
                         <div class="playoff_match" id="playoff3">

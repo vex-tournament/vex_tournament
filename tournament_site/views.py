@@ -374,24 +374,27 @@ def playoffs(request):
     finals = Bracket.objects.all()[0].Finals.all()
     winner = Bracket.objects.all()[0].Winner
 
-    matchType = "Finals"
+    quarterFinalsEnabled = [False]*4
+    semiFinalsEnabled = [False]*2
+    finalsEnabled = False
 
-    for match in semiFinals:
-        if match.winner is None:
-            matchType = "Semifinals"
-            break
+    # swap the second and third matches
+    if len(quarterFinals) > 1:
+        temp = quarterFinals[1]
+        quarterFinals[1] = quarterFinals[2]
+        quarterFinals[2] = temp
 
-    for match in quarterFinals:
-        if match.winner is None:
-            matchType = "Quarterfinals"
+    for pos, match in enumerate(quarterFinals):
+        if match.side1Team is not None or match.side2Team is not None:
+            quarterFinalsEnabled[pos] = True
 
-            # swap the second and third matches
-            temp = quarterFinals[1]
-            quarterFinals[1] = quarterFinals[2]
-            quarterFinals[2] = temp
+    for pos, match in enumerate(semiFinals):
+        if match.side1Team is not None or match.side2Team is not None:
+            semiFinalsEnabled[pos] = True
 
-            break
+    if finals[0].side1Team is not None or finals[0].side2Team is not None:
+        finalsEnabled = True
 
     return render(request, "tournament_site/playoffs.html",
-                  {"teams": teams, "quarterFinals": quarterFinals, "semiFinals": semiFinals, "finals": finals,
-                   "matchType": matchType, "winner": winner})
+                  {"teams": teams, "quarterFinals": quarterFinals, "semiFinals": semiFinals, "finals": finals, "winner": winner,
+                   "quarterFinalsEnabled": quarterFinalsEnabled, "semiFinalsEnabled": semiFinalsEnabled, "finalsEnabled": finalsEnabled})

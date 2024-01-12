@@ -37,7 +37,7 @@ If you only need it for development. The site should now be accessible at `127.0
 7. Collect static files with `python manage.py collectstatic`.
 8. Because `python manage.py runserver` is for development servers and is insecure, you should run the server with gunicorn instead. Run `gunicorn vex_tournament.wsgi:application --bind 0.0.0.0:8000` to start the server.
 9. The server should now be accessible at `0.0.0.0:8000`, but will not include CSS for the admin site. In order to make it accessible from the internet, use a reverse proxy such as [nginx](https://nginx.org).
-10. In order to enable the CSS, set the `/static` location to your static root location. Here is an example nginx configuration that is used by the production server.
+10. In order to enable the CSS, set the `/static` location to your static root location. Here is an example nginx configuration that is similar to the one used by the production server.
 ```nginx
 access_log                  /var/log/nginx/vex.access.log;
 error_log                   /var/log/nginx/vex.error.log;
@@ -56,7 +56,7 @@ server {
   ssl_certificate_key /var/www/key.pem;
 
   location / {
-      proxy_pass              http://127.0.1.1:8100;
+      proxy_pass              http://127.0.1.1:8000;
       proxy_set_header        Host $host;
   }
 

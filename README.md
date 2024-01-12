@@ -32,12 +32,41 @@ The `.env` stores settings that are used by `vex_tournament/settings.py`. Here i
 5. Create a superuser with `python manage.py createsuperuser`.
 6. Run the server with `python manage.py runserver`
 
-If you only need it for development. The site should now be accessible. However, more configuration is required to run a secure production server.
+If you only need it for development. The site should now be accessible at `127.0.0.1`. However, more configuration is required to run a secure production server.
 
 7. Collect static files with `python manage.py collectstatic`.
 8. Because `python manage.py runserver` is for development servers and is insecure, you should run the server with gunicorn instead. Run `gunicorn vex_tournament.wsgi:application --bind 0.0.0.0:8000` to start the server.
-9. The server should now be accessible at `0.0.0.0:8000`. In order to make it accessible from the internet, use a reverse proxy such as [nginx](https://nginx.org).
-10. The production server uses the `justfile` to start the server. Configure the justfile and run `just` in the project directory to easily start the server.
+9. The server should now be accessible at `0.0.0.0:8000`, but will not include CSS for the admin site. In order to make it accessible from the internet, use a reverse proxy such as [nginx](https://nginx.org).
+10. In order to enable the CSS, set the `/static` location to your static root location. Here is an example nginx configuration that is used by the production server.
+```nginx
+access_log                  /var/log/nginx/vex.access.log;
+error_log                   /var/log/nginx/vex.error.log;
+
+server {
+  server_name               vex.thearchons.xyz;
+  listen                    80;
+  return                    307 https://$host$request_uri;
+}
+
+server {
+  server_name               vex.thearchons.xyz;
+  listen 443 ssl;
+  #ssl on;
+  ssl_certificate /var/www/cert.pem;
+  ssl_certificate_key /var/www/key.pem;
+
+  location / {
+      proxy_pass              http://127.0.1.1:8100;
+      proxy_set_header        Host $host;
+  }
+
+  location /static {
+       autoindex on;
+       alias /home/archons/vex_tournament/static_root;
+  }
+}
+```
+12. The production server uses the `justfile` to start the server. Configure the justfile and run `just` in the project directory to easily start the server.
 
 ## Usage
 The main site will not be useful until the tournament is configured. Configure the server at `YOUR-URL/admin`. To reset the playoffs, delete every object in `Playoff Matchess` and `Brackets` at `YOUR-URL/admin`.

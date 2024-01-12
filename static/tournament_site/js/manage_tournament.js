@@ -49,6 +49,16 @@ let positions = {
 
 }
 
+function disableRow(team) {
+    let row = document.getElementById("available_" + team)
+    row.style.display = "none";
+}
+
+function enableRow(team) {
+    let row = document.getElementById("available_" + team)
+    row.style.display = "";
+}
+
 function selectAlliance(team) {
     // get the team's current alliance
     let teamElement = document.getElementById("alliance_" + team)
@@ -77,6 +87,9 @@ function selectAlliance(team) {
 
         // set the alliance's position to the team's position
         document.getElementById(currentAlliance + "_position").value = teamPosition;
+
+        disableRow(team);
+        disableRow(currentAlliance);
     } else {
         teamElement.parentElement.parentElement.classList.remove("table-success");
         // enable the current team
@@ -84,6 +97,8 @@ function selectAlliance(team) {
         for (let i = 0; i < teamOptions.length; i++) {
             teamOptions[i].disabled = false;
         }
+
+        enableRow(team);
     }
 
     // check if the team already has an alliance
@@ -105,6 +120,7 @@ function selectAlliance(team) {
         document.getElementById(previousAlliance + "_position").value = "None";
 
         delete positions[previousAlliance]
+        enableRow(previousAlliance)
     }
 
     delete alliances[alliances[team]]

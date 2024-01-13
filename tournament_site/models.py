@@ -13,11 +13,17 @@ class Field(models.Model):
     side2 = models.CharField(max_length=100)
     matches = models.ManyToManyField("Matches", blank=True)
 
+    def __str__(self):
+        return f"{self.field_name} ({self.field_number})"
+
 
 class School(models.Model):
     school_name = models.CharField(max_length=100)
     number_of_teams = models.IntegerField(default=0)
     teams = models.ManyToManyField("Team")
+
+    def __str__(self):
+        return self.school_name
 
 
 class Team(models.Model):
@@ -25,6 +31,9 @@ class Team(models.Model):
     ranking_points = models.IntegerField(default=0)
     matches_played = models.IntegerField(default=0)
     alliance = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.number)
 
 
 class Matches(models.Model):
@@ -35,6 +44,9 @@ class Matches(models.Model):
     side1RankingPoints = models.IntegerField(default=0)
     side2RankingPoints = models.IntegerField(default=0)
     completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.number}: {self.side1Team} vs {self.side2Team} @ {self.time}"
 
 
 class Bracket(models.Model):
@@ -49,3 +61,6 @@ class PlayoffMatches(models.Model):
     side1Team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side1TeamPlayoff", blank=True, null=True)
     side2Team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side2TeamPlayoff", blank=True, null=True)
     winner = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="winner", blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.id}: {self.side1Team} vs {self.side2Team}"

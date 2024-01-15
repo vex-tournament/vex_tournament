@@ -122,23 +122,34 @@ def manage_tournament(request):
                     side2RPDiff = form.cleaned_data["side2Points"] - match.side2RankingPoints
 
                     # get team
-                    team1 = Team.objects.get(number=match.side1Team.number)
-                    team2 = Team.objects.get(number=match.side2Team.number)
+                    team11 = Team.objects.get(number=match.side1Team1.number)
+                    team12 = Team.objects.get(number=match.side1Team2.number)
+                    team21 = Team.objects.get(number=match.side2Team1.number)
+                    team22 = Team.objects.get(number=match.side2Team2.number)
 
                     # update ranking points
-                    team1.ranking_points += side1RPDiff
-                    team2.ranking_points += side2RPDiff
+                    team11.ranking_points += side1RPDiff
+                    team12.ranking_points += side1RPDiff
+                    team21.ranking_points += side2RPDiff
+                    team22.ranking_points += side2RPDiff
 
                     # update matches played
                     if form.cleaned_data["completed"] and not match.completed:
-                        team1.matches_played += 1
-                        team2.matches_played += 1
+                        team11.matches_played += 1
+                        team12.matches_played += 1
+                        team21.matches_played += 1
+                        team22.matches_played += 1
                     elif not form.cleaned_data["completed"] and match.completed:
-                        team1.matches_played -= 1
-                        team2.matches_played -= 1
+                        team11.matches_played -= 1
+                        team12.matches_played -= 1
+                        team21.matches_played -= 1
+                        team22.matches_played -= 1
 
-                    team1.save()
-                    team2.save()
+                    # save teams
+                    team11.save()
+                    team12.save()
+                    team21.save()
+                    team22.save()                        
 
                     # update match
                     match.side1RankingPoints = form.cleaned_data["side1Points"]

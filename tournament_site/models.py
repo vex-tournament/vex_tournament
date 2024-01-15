@@ -39,14 +39,16 @@ class Team(models.Model):
 class Matches(models.Model):
     number = models.IntegerField(unique=True)
     time = models.TimeField(default="00:00:00")
-    side1Team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side1Team")
-    side2Team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side2Team")
+    side1Team1 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side1Team1")
+    side1Team2 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side1Team2")
+    side2Team1 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side2Team1")
+    side2Team2 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side2Team2")
     side1RankingPoints = models.IntegerField(default=0)
     side2RankingPoints = models.IntegerField(default=0)
     completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.number}: {self.side1Team} vs {self.side2Team} @ {self.time}"
+        return f"{self.number}: {self.side1Team1} and {self.side1Team2} vs {self.side2Team1} and {self.side2Team2} @ {self.time}"
 
 
 class Bracket(models.Model):

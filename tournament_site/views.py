@@ -172,7 +172,7 @@ def manage_tournament(request):
 
     return redirect("/login/")
 
-def view(request):
+def viewcompat(request):
     fields = Field.objects.all()
     matches = Matches.objects.all().order_by("number")
     teams = reversed(Team.objects.all().order_by("ranking_points"))

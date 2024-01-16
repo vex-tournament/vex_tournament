@@ -1,0 +1,80 @@
+{% extends "tournament_site/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <script src="{% static 'tournament_site/js/manage_tournament.js' %}"></script>
+
+    <h1> VEX tournament Qualifiers</h1>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm">
+                <!-- scoreboard -->
+                <h2>Scoreboard</h2>
+                <table class="table" id="scoreboard">
+                    <thead>
+                        <tr>
+                            <th scope="col">Rank</th>
+                            <th scope="col">Team</th>
+                            <th scope="col">RP</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for team in teams %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ team.number }}</td>
+                                <td>{{ team.ranking_points }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!-- matches -->
+            {% for field in fields %}
+                <div class="col-sm">
+                    <h2>{{ field.field_name }}</h2>
+                    <div class="field_table">
+                           <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Match</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">{{ field.side1 }} 1</th>
+                                    <th scope="col">{{ field.side1 }} 2</th>
+                                    <th scope="col">RP {{ field.side1 }}</th>
+                                    <th scope="col">{{ field.side2 }} 1</th>
+                                    <th scope="col">{{ field.side2 }} 2</th>
+                                    <th scope="col">RP {{ field.side2 }}</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for match in matches %}
+                                    {% if match in field.matches.all %}
+                                        <tr class="match {% if match.completed %}table-success{% endif %}">
+                                            <td>{{ match.number }}</td>
+                                            <td>{{ match.time|time:"G:i" }}</td>
+                                            <td>{{ match.side1Team1.number }}</td>
+                                            <td>{{ match.side1Team2.number }}</td>
+                                            <td>{{ match.side1RankingPoints }}</td>
+                                            <td>{{ match.side2Team1.number }}</td>
+                                            <td>{{ match.side2Team2.number }}</td>
+                                            <td>{{ match.side2RankingPoints }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

@@ -172,6 +172,16 @@ def manage_tournament(request):
 
     return redirect("/login/")
 
+def view(request):
+    fields = Field.objects.all()
+    matches = Matches.objects.all().order_by("number")
+    teams = reversed(Team.objects.all().order_by("ranking_points"))
+
+    return render(
+        request,
+        "tournament_site/manage_tournament.html",
+        {"fields": fields, "matches": matches, "teams": teams}
+    )
 
 def log_in(request):
     if request.user.is_authenticated:

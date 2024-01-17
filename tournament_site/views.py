@@ -70,7 +70,7 @@ def index(request):
     if request.user.is_authenticated:
         return redirect("/tournament/")
 
-    return redirect("/login/")
+    return redirect("/views/")
 
 
 # main tournament page, requires login
@@ -94,7 +94,7 @@ def tournament(request):
 
         return render(request, "tournament_site/tournament.html", data)
 
-    return redirect("/login/")
+    return redirect("/views/")
 
 
 # manage tournament page, requires login and staff status
@@ -170,7 +170,19 @@ def manage_tournament(request):
 
         return redirect("/tournament/")
 
-    return redirect("/login/")
+    return redirect("/views/")
+
+
+def viewcompat(request):
+    fields = Field.objects.all()
+    matches = Matches.objects.all().order_by("number")
+    teams = reversed(Team.objects.all().order_by("ranking_points"))
+
+    return render(
+        request,
+        "tournament_site/views.html",
+        {"fields": fields, "matches": matches, "teams": teams}
+    )
 
 
 def log_in(request):

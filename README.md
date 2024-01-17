@@ -5,6 +5,7 @@ A website to manage robotics tournaments, built using Django. The production web
 # Getting Started
 ## Requirements
 - Python 3
+- Django
 - Gunicorn (production only)
 - Just (production only)
 

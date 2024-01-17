@@ -172,6 +172,7 @@ def manage_tournament(request):
 
     return redirect("/views/")
 
+
 def viewcompat(request):
     fields = Field.objects.all()
     matches = Matches.objects.all().order_by("number")
@@ -179,9 +180,10 @@ def viewcompat(request):
 
     return render(
         request,
-        "tournament_site/manage_tournament.html",
+        "tournament_site/views.html",
         {"fields": fields, "matches": matches, "teams": teams}
     )
+
 
 def log_in(request):
     if request.user.is_authenticated:

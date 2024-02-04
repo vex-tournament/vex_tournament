@@ -5,14 +5,15 @@ A website to manage robotics tournaments, built using Django. The production web
 # Getting Started
 ## Requirements
 - Python 3
-- Django
-- Gunicorn (production only)
 - Just (production only)
 
 ## Installation
 1. Clone the repository
-2. Run `pip install -r requirements.txt` to install the packages
-3. Add a `.env` file to the project root (where `manage.py` is)
+2. Cd into the repository
+3. Create a venv with `python3 -m venv venv`
+4. Activate the venv with `source ./venv/bin/activate`
+5. Run `pip install -r requirements.txt` to install the packages
+6. Add a `.env` file to the project root (where `manage.py` is)
 
 The `.env` stores settings that are used by `vex_tournament/settings.py`. Here is an example:
 ```json

@@ -5,6 +5,7 @@ A website to manage robotics tournaments, built using Django. The production web
 # Getting Started
 ## Requirements
 - Python 3
+- Django
 - Gunicorn (production only)
 - Just (production only)
 
@@ -69,4 +70,4 @@ server {
 12. The production server uses the `justfile` to start the server. Configure the justfile and run `just` in the project directory to easily start the server.
 
 ## Usage
-The main site will not be useful until the tournament is configured. Configure the server at `YOUR-URL/admin`. To reset the playoffs, delete every object in `Playoff Matchess` and `Brackets` at `YOUR-URL/admin`.
+The main site will not be useful until the tournament is configured. Configure the server at `YOUR-URL/admin`. To reset the playoffs, delete every object in `Playoff Matches` and `Brackets` at `YOUR-URL/admin`.

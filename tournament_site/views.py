@@ -54,7 +54,7 @@ class playoffMatchForm(forms.Form):
     match_type = forms.CharField(label="Match Type")
     match_id = forms.IntegerField(label="Match ID")
     number = forms.IntegerField(label="Match Number")
-    winner = forms.IntegerField(label="Winner")
+    winner = forms.CharField(label="Winner")
 
     def clean(self):
         cleaned_data = super(playoffMatchForm, self).clean()

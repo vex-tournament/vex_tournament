@@ -239,7 +239,7 @@ def alliance_selection(request, alliance_number):
                 team.save()
                 continue
 
-            team.alliance = Team.objects.get(number=int(alliance))
+            team.alliance = Team.objects.get(number=alliance)
             team.save()
 
         # put teams into brackets, filtering out None teams

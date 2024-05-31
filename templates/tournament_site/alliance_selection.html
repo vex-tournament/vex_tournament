@@ -31,7 +31,7 @@
                                         <td>{{ team.number }}</td>
                                         <td>{{ team.ranking_points }}</td>
                                         <td>
-                                            <select class="form-control" name="{{ team.number }}" onchange="selectAlliance({{ team.number }})" id="alliance_{{ team.number }}">
+                                            <select class="form-control" name="{{ team.number }}" onchange="selectAlliance('{{ team.number }}')" id="alliance_{{ team.number }}">
                                                 <option value="None">None</option>
                                                 {% for selectTeams in teams %}
                                                     {% if team.number != selectTeams.number %}
@@ -41,7 +41,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                                <select class="form-control" name="{{ team.number }}_position" id="{{ team.number }}_position" onchange="changePos({{ team.number }})">
+                                                <select class="form-control" name="{{ team.number }}_position" id="{{ team.number }}_position" onchange="changePos('{{ team.number }}')">
                                                     <option value="None">None</option>
                                                     {% for i in range8 %}
                                                         <option value="{{ i }}" class="positionOption_{{ i }}">{{ i }}</option>

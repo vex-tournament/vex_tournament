@@ -38,6 +38,7 @@ class Team(models.Model):
 
 class Matches(models.Model):
     number = models.IntegerField(unique=True)
+    display_number = models.CharField(max_length=100, blank=True, null=True) # optional, overrides number for visuals
     time = models.TimeField(default="00:00:00")
     side1Team1 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side1Team1")
     side1Team2 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side1Team2")

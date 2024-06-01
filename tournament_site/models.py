@@ -49,7 +49,7 @@ class Matches(models.Model):
     completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.number}: {self.side1Team1} and {self.side1Team2} vs {self.side2Team1} and {self.side2Team2} @ {self.time}"
+        return f"{self.number}/{self.display_number}: {self.side1Team1} and {self.side1Team2} vs {self.side2Team1} and {self.side2Team2} @ {self.time}"
 
 
 class Bracket(models.Model):

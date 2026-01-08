@@ -32,6 +32,8 @@ ALLOWED_HOSTS = env['allowed_hosts']
 
 STATIC_ROOT = env['static_root']
 
+if 'csrf_trusted_origins' in env:
+    CSRF_TRUSTED_ORIGINS = env['csrf_trusted_origins']
 
 # Application definition
 

@@ -30,7 +30,7 @@ class Team(models.Model):
     number = models.CharField(max_length=100, unique=True)
     ranking_points = models.IntegerField(default=0)
     matches_played = models.IntegerField(default=0)
-    coop_points = models.IntegerField(default= 0)
+    coop_points = models.IntegerField(default=0)
     alliance = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):

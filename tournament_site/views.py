@@ -150,7 +150,6 @@ def manage_tournament(request):
                     # update coop points if changed
                     new_coop = form.cleaned_data["coop_point"]
                     old_coop = match.coop_point
-                    print(old_coop,new_coop)
                     
                     if new_coop and not old_coop:
                         team11.coop_points += 1

@@ -13,7 +13,7 @@ function updateRP(RPInput) {
 }
 
 
-// these two functions never get called, this is because im not using the hidden input
+
 function updateCompleted(completedInput) {
     let matchNumber = completedInput.id.split("_")[1];
 
@@ -28,7 +28,6 @@ function updateCoop(coopInput) {
     // update the hidden input
     document.getElementById("coopHidden_" + matchNumber).value = coopInput.checked;
 }
-// end of my message
 
 function allianceSelection() {
     // temporary, because there is no use for this page yet

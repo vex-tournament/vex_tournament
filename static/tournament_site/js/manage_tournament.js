@@ -12,11 +12,21 @@ function updateRP(RPInput) {
     document.getElementById("side" + side + "RPHidden_" + matchNumber).value = RPInput.value;
 }
 
+
+
 function updateCompleted(completedInput) {
     let matchNumber = completedInput.id.split("_")[1];
 
     // update the hidden input
     document.getElementById("completedHidden_" + matchNumber).value = completedInput.checked;
+}
+
+function updateCoop(coopInput) {
+
+    let matchNumber = coopInput.id.split("_")[1];
+
+    // update the hidden input
+    document.getElementById("coopHidden_" + matchNumber).value = coopInput.checked;
 }
 
 function allianceSelection() {

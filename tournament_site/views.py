@@ -33,6 +33,7 @@ class MatchForm(forms.Form):
     side1Points = forms.IntegerField(label="Side 1 Points")
     side2Points = forms.IntegerField(label="Side 2 Points")
     completed = forms.BooleanField(label="Completed", required=False)
+    coop_point = forms.BooleanField(label="Coop", required=False)
 
     def clean(self):
         cleaned_data = super(MatchForm, self).clean()
@@ -40,6 +41,7 @@ class MatchForm(forms.Form):
         side1Points = cleaned_data.get("side1Points")
         side2Points = cleaned_data.get("side2Points")
         completed = cleaned_data.get("completed")
+        coop_point = cleaned_data.get("coop_point")
 
         if not Matches.objects.filter(number=match_number).exists():
             raise forms.ValidationError("Invalid match number")
@@ -89,8 +91,8 @@ def tournament(request):
             "teams": Team.objects.all()
         }
 
-        # sort teams by ranking points
-        data["teams"] = sorted(data["teams"], key=lambda team: team.ranking_points, reverse=True)
+        # sort teams by ranking points, then by coop points
+        data["teams"] = sorted(data["teams"], key=lambda team: (team.ranking_points, team.coop_points), reverse=True)
 
         return render(request, "tournament_site/tournament.html", data)
 
@@ -145,6 +147,22 @@ def manage_tournament(request):
                         team21.matches_played -= 1
                         team22.matches_played -= 1
 
+                    # update coop points if changed
+                    new_coop = form.cleaned_data["coop_point"]
+                    old_coop = match.coop_point
+                    print(old_coop,new_coop)
+                    
+                    if new_coop and not old_coop:
+                        team11.coop_points += 1
+                        team12.coop_points += 1
+                        team21.coop_points += 1
+                        team22.coop_points += 1
+                    elif not new_coop and old_coop:
+                        team11.coop_points -= 1
+                        team12.coop_points -= 1
+                        team21.coop_points -= 1
+                        team22.coop_points -= 1
+
                     # save teams
                     team11.save()
                     team12.save()
@@ -155,12 +173,13 @@ def manage_tournament(request):
                     match.side1RankingPoints = form.cleaned_data["side1Points"]
                     match.side2RankingPoints = form.cleaned_data["side2Points"]
                     match.completed = form.cleaned_data["completed"]
+                    match.coop_point = form.cleaned_data.get("coop_point", False)
                     match.save()
 
             # fields
             fields = Field.objects.all()
             matches = Matches.objects.all().order_by("number")
-            teams = reversed(Team.objects.all().order_by("ranking_points"))
+            teams = sorted(Team.objects.all(), key=lambda team: (team.ranking_points, team.coop_points), reverse=True)
 
             return render(
                 request,
@@ -176,7 +195,7 @@ def manage_tournament(request):
 def viewcompat(request):
     fields = Field.objects.all()
     matches = Matches.objects.all().order_by("number")
-    teams = reversed(Team.objects.all().order_by("ranking_points"))
+    teams = sorted(Team.objects.all(), key=lambda team: (team.ranking_points, team.coop_points), reverse=True)
 
     return render(
         request,

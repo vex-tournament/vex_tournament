@@ -17,6 +17,7 @@
                             <th scope="col">Rank</th>
                             <th scope="col">Team</th>
                             <th scope="col">RP</th>
+                            <th scope="col">COOP</th>
                         </tr>
                     </thead>
 
@@ -26,6 +27,7 @@
                                 <th scope="row">{{ forloop.counter }}</th>
                                 <td>{{ team.number }}</td>
                                 <td>{{ team.ranking_points }}</td>
+                                <td>{{ team.coop_points }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -49,8 +51,7 @@
                                     <th scope="col">{{ field.side2 }}-1</th>
                                     <th scope="col">{{ field.side2 }}-2</th>
                                     <th scope="col">RP {{ field.side2 }}</th>
-                                    <th scope="col"></th>
-                                    <th scope="col"></th>
+                                    <th scope="col">Coop</th>
                                 </tr>
                             </thead>
 
@@ -64,6 +65,7 @@
                                             <input type="hidden" name="side1Points" value="{{ match.side1RankingPoints }}" id="side1RPHidden_{{ match.number }}">
                                             <input type="hidden" name="side2Points" value="{{ match.side2RankingPoints }}" id="side2RPHidden_{{ match.number }}">
                                             <input type="hidden" name="completed" value="{{ match.completed }}" id="completedHidden_{{ match.number }}">
+                                            <input type="hidden" name="coop_point" value="{{ match.coop_point }}" id="coopHidden_{{ match.number }}">
                                         </form>
 
                                         <tr class="match {% if match.completed %}table-success{% endif %}">
@@ -77,11 +79,12 @@
                                             </td>
                                             <td>{{ match.time|time:"G:i" }}</td>
                                             <td>{{ match.side1Team1.number }}</td>
-                                            <td>{{ match.side1Team2.number }}</td>
+                                            <td>{{ match.sideso1Team2.number }}</td>
                                             <td><input class="form-control" type="number" id="side1RP_{{ match.number }}" min="0" max="9" value="{{ match.side1RankingPoints }}" onchange="updateRP(this)"></td>
                                             <td>{{ match.side2Team1.number }}</td>
                                             <td>{{ match.side2Team2.number }}</td>
                                             <td><input class="form-control" type="number" id="side2RP_{{ match.number }}" min="0" max="9" value="{{ match.side2RankingPoints }}" onchange="updateRP(this)"></td>
+                                            <td><input class="form-check" type="checkbox" id="coop_{{ match.number }}" onchange="updateCoop(this)" {% if match.coop_point %}checked{% endif %}></td>
                                             <td><input class="form-check" type="checkbox" id="completed_{{ match.number }}" onchange="updateCompleted(this)" {% if match.completed %}checked{% endif %}></td>
                                             <td><input class="btn btn-primary btn-sm" type="submit" value="Save" form="match_{{ match.number }}"></td>
                                         </tr>

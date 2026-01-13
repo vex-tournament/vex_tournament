@@ -30,6 +30,7 @@ class Team(models.Model):
     number = models.CharField(max_length=100, unique=True)
     ranking_points = models.IntegerField(default=0)
     matches_played = models.IntegerField(default=0)
+    coop_points = models.IntegerField(default= 0)
     alliance = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
@@ -46,6 +47,7 @@ class Matches(models.Model):
     side2Team2 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="side2Team2")
     side1RankingPoints = models.IntegerField(default=0)
     side2RankingPoints = models.IntegerField(default=0)
+    coop_point = models.BooleanField(default=False)
     completed = models.BooleanField(default=False)
 
     def __str__(self):

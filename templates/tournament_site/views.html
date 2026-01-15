@@ -18,6 +18,7 @@
                             <th scope="col">Rank</th>
                             <th scope="col">Team</th>
                             <th scope="col">RP</th>
+                            <th scope="col">COOP</th>
                         </tr>
                     </thead>
 
@@ -27,6 +28,7 @@
                                 <th scope="row">{{ forloop.counter }}</th>
                                 <td>{{ team.number }}</td>
                                 <td>{{ team.ranking_points }}</td>
+                                <td>{{ team.coop_points }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -20,6 +20,7 @@
                                     <th scope="col"></th>
                                     <th scope="col">Team</th>
                                     <th scope="col">Ranking Points</th>
+                                    <th scope="col">Coop Points</th>
                                     <th scope="col">Alliance</th>
                                     <th scope="col">Position</th>
                                 </tr>
@@ -30,6 +31,7 @@
                                         <th>{{ forloop.counter }}</th>
                                         <td>{{ team.number }}</td>
                                         <td>{{ team.ranking_points }}</td>
+                                        <td>{{ team.coop_points }}</td>
                                         <td>
                                             <select class="form-control" name="{{ team.number }}" onchange="selectAlliance('{{ team.number }}')" id="alliance_{{ team.number }}">
                                                 <option value="None">None</option>
